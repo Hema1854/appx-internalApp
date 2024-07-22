@@ -1,0 +1,147 @@
+/* Prevent vertical scroll on the entire page */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Container for the entire login form */
+.signin-page-container {
+    display: flex;
+    height: 100vh;
+    background: #f0f4ff;
+    padding: 2%;
+}
+
+/* Left side section with the background image */
+.signin-image-section {
+    flex: 1;
+    background-image: url('../images/2762371 image.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.text-container {
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.welcome-text {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.portal-text {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.description-text {
+    font-size: 14px;
+    line-height: 1.5;
+    max-width: 300px;
+}
+
+/* Right side section with the login form */
+.login-form-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 60px;
+}
+
+.company-logo-image {
+    max-width: 100px;
+    height: auto;
+    margin-bottom: 5px;
+}
+
+.login-title {
+    font-size: 24px;
+    margin-bottom: 5px;
+    /* font-weight: bold; */
+    color:#b060ed;
+}
+
+.login-description {
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 20px;
+    max-width: 300px;
+}
+
+.signin-form {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.label-style {
+    margin-top: 2px;
+    font-weight: bold;
+    color:#b060ed;
+}
+
+.login-input-field {
+    height: 36px;
+    width: 100%;
+    border-radius: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    margin-top: 2px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-container label {
+    margin-left: 5px;
+    font-size: 14px;
+}
+
+.login-button {
+    margin-top: 5px;
+    padding: 10px;
+    background-color: #952cdf;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+}
+
+.bottom-text {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.span-text-style {
+    color: #266aa5;
+    margin: 5px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.span-text-style:hover {
+    text-decoration: none;
+}
+
+.error-message {
+    color: red;
+    padding: 0px;
+    margin: 0px;
+}

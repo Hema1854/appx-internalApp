@@ -1,0 +1,114 @@
+  
+  .header {
+    width: 100%;
+    height: 30%;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-repeat: no-repeat;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(23, 0, 44, 0.67); /* Adjust color and opacity as needed */
+    z-index: -1;
+  }
+  
+  .default-dashboard-content {
+    flex: 1;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-repeat: no-repeat;
+    padding: 20px;
+    box-sizing: border-box;
+    /* overflow-y: auto; */
+    height: 70vh;
+    width: 100%;
+  }
+  
+  .carousel {
+    width: 70%;
+  }
+  
+  .carousel img {
+    object-fit: cover;
+    width: auto;
+    max-height: 250px; /* Adjust the height as needed */
+    margin: auto;
+  }
+  
+  .appx-logo {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 50px;
+  }
+  
+  .logout {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .logout .logout-icon {
+    width: 24px;
+    height: 24px;
+    /* transition: filter 0.3s; */
+  }
+  
+  .logout span {
+    margin-top: 5px;
+    /* transition: color 0.3s; */
+    font-size: 14px;
+    font-weight: 700;
+  }
+  
+  .logout:hover .logout-icon {
+    /* transition: color 0.3s; */
+    filter: invert(70%) sepia(95%) saturate(2737%) hue-rotate(347deg) brightness(99%) contrast(107%);
+  }
+  
+  .logout:hover span {
+    color: red;
+  }
+  
+  
+  .collapsed .menu-item span {
+    display: none;
+  }
+  
+  .collapsed .profile-pic {
+    width: 40px;
+    height: 40px;
+  }
+  
+  
+  .collapsed .menu-item img {
+    width: 20px;
+    height: 20px;
+  } 
+  .welcome-text {
+    color: #bc97df;
+  }
+  

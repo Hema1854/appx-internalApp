@@ -1,0 +1,70 @@
+body {
+    overflow-x: hidden;
+    margin: 0;
+  }
+  
+  .home-page-main-container {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+.header-section {
+    background-color: #684DF4;
+    padding: 5px;
+    max-height: 10% !important;
+}
+.logo-section {
+    background-color: #E2E8FA;
+    padding: 10px 75px;
+    max-height: 20% !important;
+}
+.home-page-text {
+    color: #ffffff;
+    font-size: 16px;
+    font-family: sans-serif;
+    margin-top: 10px;
+}
+
+.employee-login-button {
+    font-size: 12px !important;
+    background-color: #fff !important;
+    border: 1px solid #283863 !important;
+    color: #3f5183 !important;
+    transition: background-color 0.1s ease-out !important;
+    min-height: 35px !important;
+    max-width: 110px !important;
+    font-weight: 600 !important;
+    padding: 2px !important;
+    border-radius: 3px !important;
+    align-items: center !important;
+    margin-top: 7px;
+    margin-left: 60px;
+  }
+  .employee-login-button:hover {
+    background-color: #283863 !important;
+    color: #fff !important;
+  }
+
+  .company-logo {
+    max-width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.logo-section-headings {
+    margin-top: 5px;
+    color: #212529;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.logo-section-headings:hover {
+    color: #684DF4;
+    text-decoration: none;
+  }
+  .main-content {
+    background-color: #f0f4ff;
+    min-height: 70vh;
+  }

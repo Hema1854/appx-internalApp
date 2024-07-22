@@ -1,0 +1,225 @@
+.dashboard {
+  display: flex;
+  height: 100vh;
+  transition: all 0.3s;
+}
+
+.dashboard.collapsed .sidebar {
+  width: 55px;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  
+ 
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #b260ff;
+  padding: 0px 1px 0px 0px;
+  color: white;
+  transition: width 0.3s;
+  position: relative;
+}
+
+.profile {
+  text-align: center;
+  margin-bottom: 2px;
+  margin-top: 10px;
+}
+
+.profile-pic {
+  width: 80px;
+  height: 80px;
+  background-color: #fff;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+.profile-name {
+  margin-top: 0px;
+  font-size: 14px;
+}
+
+.dashboard-left-menu {
+  list-style: none;
+  padding: 0;
+}
+
+.dashboard-left-menu-item {
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.dashboard-left-menu-item img {
+
+  margin-bottom: 3px;
+  width: 24px;
+  height: 24px;
+  transition: width 0.3s, height 0.3s;
+}
+
+.dashboard-left-menu-item span {
+  display: inline-block;
+  transition: opacity 0.3s;
+  color: #fff;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.dashboard-left-menu-item:hover {
+  background-color: #fbfbfc;
+  color: #bb54e7 !important;
+}
+
+.dashboard-left-menu-item:hover span {
+  color: #bb54e7 !important;
+}
+
+.dashboard-left-menu-item:hover img {
+  filter: invert(30%) sepia(72%) saturate(4805%) hue-rotate(246deg) brightness(89%) contrast(95%);
+}
+.dashboard-left-menu-item.selected {
+  background-color: #3f0872 ;
+  color: #bb54e7 !important;
+}
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  height: 30%;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-repeat: no-repeat;
+  padding: 20px;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(23, 0, 44, 0.67);
+  z-index: -1;
+}
+
+
+.carousel {
+  width: 70%;
+}
+
+.carousel img {
+  object-fit: cover;
+  width: auto;
+  max-height: 250px;
+  margin: auto;
+}
+
+.appx-logo {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 50px;
+}
+
+.logout {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.logout .logout-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.logout span {
+  margin-top: 5px;
+}
+
+.toggle-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%; 
+}
+.toggle-button.collapsed {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%; 
+}
+.toggle-button img {
+  width: 20px;
+  height: 20px;
+}
+.collapsed.toggle-button{
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%; 
+}
+.collapsed .menu-item span {
+  display: none;
+}
+
+.collapsed .profile-pic {
+  width: 40px;
+  height: 40px;
+}
+
+.collapsed .profile-name {
+  display: none;
+}
+
+.collapsed .menu-item img {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+} 
+.welcome-text {
+  color: #bc97df;
+}
+
+.dashboard-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.content-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+.dashboard-left-menu-item.collapsed:hover{
+  background-color: #bb54e7;
+}
