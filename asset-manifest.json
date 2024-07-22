@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/appx-internalApp/static/css/main.e77e5039.css",
+    "main.js": "/appx-internalApp/static/js/main.26b66c4a.js",
+    "static/js/453.295300bf.chunk.js": "/appx-internalApp/static/js/453.295300bf.chunk.js",
+    "static/media/header_bg_image.jpg": "/appx-internalApp/static/media/header_bg_image.e5fd56c8d79bfd9eaa31.jpg",
+    "static/media/default_header_banner.png": "/appx-internalApp/static/media/default_header_banner.f9b8ac42cc72d7620418.png",
+    "static/media/appx-logo.png": "/appx-internalApp/static/media/appx-logo.77a2d0521cf3dce98b4e.png",
+    "static/media/Backward.png": "/appx-internalApp/static/media/Backward.cb4c4a4e1754545af02b.png",
+    "static/media/Expand White.png": "/appx-internalApp/static/media/Expand White.5e34542a135822701687.png",
+    "static/media/Logo AppX White.png": "/appx-internalApp/static/media/Logo AppX White.03fe94bad8192c5c7fa8.png",
+    "static/media/2762371 image.png": "/appx-internalApp/static/media/2762371 image.40562448d923571510e3.png",
+    "static/media/Gallery White.png": "/appx-internalApp/static/media/Gallery White.633e1de0b49c611bd0cd.png",
+    "static/media/content_bg_image.jpeg": "/appx-internalApp/static/media/content_bg_image.32fe759fd5aa77bbf5bf.jpeg",
+    "static/media/Med Dec White.png": "/appx-internalApp/static/media/Med Dec White.84b8e493b87782b15de5.png",
+    "static/media/Personal Info White.png": "/appx-internalApp/static/media/Personal Info White.92d605f020cdedf61235.png",
+    "static/media/Cal White.png": "/appx-internalApp/static/media/Cal White.0666f7291b763b96cd37.png",
+    "static/media/Logout White.png": "/appx-internalApp/static/media/Logout White.790065c77e63da694a8b.png",
+    "static/media/Trav Dec White.png": "/appx-internalApp/static/media/Trav Dec White.0e406dc3943987d50de6.png",
+    "index.html": "/appx-internalApp/index.html",
+    "main.e77e5039.css.map": "/appx-internalApp/static/css/main.e77e5039.css.map",
+    "main.26b66c4a.js.map": "/appx-internalApp/static/js/main.26b66c4a.js.map",
+    "453.295300bf.chunk.js.map": "/appx-internalApp/static/js/453.295300bf.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e77e5039.css",
+    "static/js/main.26b66c4a.js"
+  ]
+}
