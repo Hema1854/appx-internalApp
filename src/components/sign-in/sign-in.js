@@ -28,7 +28,7 @@ function SignInPage() {
 
             
             // const url = process.env.REACT_APP_URL + API_END_POINTS.login
-            const url = "https://4voj6fn7d8.execute-api.us-east-1.amazonaws.com/dev/login"
+            const url = "https://4ljgkngzqa.execute-api.us-east-1.amazonaws.com/dev/login"
             const response = await fetch (url, {
                 method: 'POST',
                 headers: {
