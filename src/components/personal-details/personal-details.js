@@ -233,21 +233,21 @@ const PersonalDetails = () => {
               <h1 className="section-heading">Employee Details</h1></center>
             <Row>
               <Col>
-                <label className="form-label">Employee ID <span className="required">*</span></label><br />
+                <label className="form-label"><span className="required">*</span>Employee ID </label><br />
                 <input className="form-label-input" type="text" name="employeeId" onChange={handleEmployeeDetails} value={employeeId} />
               </Col>
               <Col>
-                <label className="form-label">Employee Name<span className="required">*</span></label><br />
+                <label className="form-label"><span className="required">*</span>Employee Name</label><br />
                 <input className="form-label-input" type="text" name="employeeName" onChange={handleEmployeeDetails} value={employeeName} />
               </Col>
               <Col>
-                <label className="form-label">Official Email<span className="required">*</span></label><br />
+                <label className="form-label"><span className="required">*</span>Official Email</label><br />
                 <input className="form-label-input"  type="text" name="officialEmail" onChange={handleEmployeeDetails} value={officialEmail} />
               </Col>
             </Row>
             <Row>
               <Col>
-                <label className="form-label">Phone<span className="required">*</span></label> <br />
+                <label className="form-label"><span className="required">*</span>Phone</label> <br />
                 <PhoneInput 
   country={'in'}
   value={phoneNumber}
@@ -302,11 +302,11 @@ const PersonalDetails = () => {
               <h1 className="section-heading">Personal Details</h1></center>
             <Row>
               <Col className="section-heading-col">
-                <label className="form-label">PAN Number<span className="required">*</span></label><br />
+                <label className="form-label"><span className="required">*</span>PAN Number</label><br />
                 <input className="form-label-input" type="text" name="panNumber" onChange={handlePersonalData} value={panNumber} />
               </Col>
               <Col className="section-heading-col">
-                <label className="form-label">Aadhar Number<span className="required">*</span></label><br />
+                <label className="form-label"><span className="required">*</span>Aadhar Number</label><br />
                 <input className="form-label-input" type="text" name="aadharNumber" onChange={handlePersonalData} value={aadharNumber} />
               </Col>
               <Col className="section-heading-col">
@@ -539,21 +539,21 @@ const PersonalDetails = () => {
               <h1 className="section-heading">Bank Details</h1></center>
             <Row>
               <Col>
-                <label className="form-label">Account Number<span className="required">*</span></label><br />
+                <label className="form-label"><span className="required">*</span>Account Number</label><br />
                 <input className="form-label-input" type="text" name="acNumber" onChange={handleBankDetailsData} value = {acNumber} />
               </Col>
               <Col>
-                <label className="form-label">IFSC Code<span className="required">*</span></label> <br />
+                <label className="form-label"><span className="required">*</span>IFSC Code</label> <br />
                 <input className="form-label-input" type="text" name="ifscCode" onChange={handleBankDetailsData} value={ifscCode} />
               </Col>
               <Col>
-                <label className="form-label">Name as per A/C<span className="required">*</span></label><br />
+                <label className="form-label"><span className="required">*</span>Name as per A/C</label><br />
                 <input className="form-label-input" type="text" name="nameAsPerBank" onChange={handleBankDetailsData}  value={nameAsPerBank}/>
               </Col>
             </Row>
             <Row>
               <Col>
-                <label className="form-label">Branch<span className="required">*</span></label> <br />
+                <label className="form-label"><span className="required">*</span>Branch</label> <br />
                 <input className="form-label-input" type="text" name="branchName" onChange={handleBankDetailsData} value={branchName} />
               </Col>
               <Col>
