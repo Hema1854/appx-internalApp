@@ -37,8 +37,11 @@
 }
 
 .profile-name {
-  margin-top: 0px;
-  font-size: 14px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: sans-serif;
 }
 
 .dashboard-left-menu {
@@ -53,16 +56,36 @@
   align-items: center;
   transition: background-color 0.3s, color 0.3s;
 }
+.dashboard-left-menu-dropdown {
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s, color 0.3s;
+}
+
 
 .dashboard-left-menu-item img {
-
   margin-bottom: 3px;
   width: 24px;
   height: 24px;
   transition: width 0.3s, height 0.3s;
 }
 
+.dashboard-left-menu-dropdown img {
+  margin-bottom: 3px;
+  width: 24px;
+  height: 24px;
+  transition: width 0.3s, height 0.3s;
+}
 .dashboard-left-menu-item span {
+  display: inline-block;
+  transition: opacity 0.3s;
+  color: #fff;
+  font-weight: bold;
+  margin-left: 10px;
+}
+.dashboard-left-menu-dropdown span {
   display: inline-block;
   transition: opacity 0.3s;
   color: #fff;
@@ -75,11 +98,21 @@
   color: #bb54e7 !important;
 }
 
+.dashboard-left-menu-dropdown:hover {
+  background-color: #fbfbfc;
+  color: #bb54e7 !important;
+}
 .dashboard-left-menu-item:hover span {
+  color: #bb54e7 !important;
+}
+.dashboard-left-menu-dropdown:hover span {
   color: #bb54e7 !important;
 }
 
 .dashboard-left-menu-item:hover img {
+  filter: invert(30%) sepia(72%) saturate(4805%) hue-rotate(246deg) brightness(89%) contrast(95%);
+}
+.dashboard-left-menu-dropdown:hover img {
   filter: invert(30%) sepia(72%) saturate(4805%) hue-rotate(246deg) brightness(89%) contrast(95%);
 }
 .dashboard-left-menu-item.selected {
@@ -222,4 +255,47 @@
 }
 .dashboard-left-menu-item.collapsed:hover{
   background-color: #bb54e7;
+}
+
+.dashboard-left-menu .dropdown {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-left: 20px; /* Indent dropdown items */
+}
+
+.dashboard-left-menu .dropdown-item {
+  padding: 5px 0;
+}
+
+.accordion .card-header {
+  background-color: #b260ff;
+  color: white;
+  cursor: pointer;
+}
+
+.accordion .card-body {
+  background-color: #fff;
+  color: #000;
+}
+
+.accordion .btn-link {
+  color: white;
+}
+
+.accordion .btn-link:hover {
+  text-decoration: none;
+  color: #bb54e7;
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  /* padding: 10px 20px; */
+  cursor: pointer;
+}
+
+.accordion-body {
+  padding: 0 20px;
+  list-style: none;
 }

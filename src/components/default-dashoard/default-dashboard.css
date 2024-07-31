@@ -111,4 +111,13 @@
   .welcome-text {
     color: #bc97df;
   }
+  .hello-text {
+    color: #b35bfb;
+    font-size: 36px;
+  }
+  .hi-icon {
+    width: 30px; /* Adjust size as needed */
+    height: 30px; /* Adjust size as needed */
+    margin-left: 10px; /* Adjust spacing as needed */
+  }
   

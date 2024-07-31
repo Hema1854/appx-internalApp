@@ -7,14 +7,20 @@ import contentBg from '../images/content_bg_image.jpeg';
 import ProgressBar from './ProgressBar';
 import { Button, Col, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { SubMenuInfoAction } from '../../Redux/Action/SubMenuInfoAction';
 
 
 const sections = ['Employee Details', 'Personal Details', 'Qualification', 'Bank Details'];
 
 const PersonalDetails = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const loginInfo = useSelector((state) => state.LoginInfoReducer);
+  const subMenuInfo = useSelector((state) => state.SubMenuInfoReducer);
+  // const employeeName = useSelector((state) => state.user.employeeName);
 
-  const [selectedMenu, setSelectedMenu] = useState('Employee Details');
+  const [selectedMenu, setSelectedMenu] = useState(subMenuInfo.subMenu);
   const [progress, setProgress] = useState(0);
   const [personalInformation, setPersonalInformation] = useState([])
   const [employeeDetailsData, setEmployeeDetailsData] = useState({
@@ -58,6 +64,7 @@ const PersonalDetails = () => {
   })
 
   useEffect(() => {
+    console.log("enteredddddddddd");
     const currentIndex = sections.indexOf(selectedMenu);
     const newProgress = ((currentIndex + 1) / sections.length) * 100;
     setProgress(newProgress);
@@ -68,12 +75,14 @@ const PersonalDetails = () => {
     getPersonalInformation()
   }, []);
 
-
   const getPersonalInformation = async () => {
     // navigate('/dashboard'); 
+    // console.log("employeeMail", employeeMail)
+    // console.log("employeeName", employeeName)
+
     try {
       const params = {
-        email: "hema.bodapoori@app-xcelerate.com",
+        email: loginInfo.userEmail
       };
 
       const response = await fetch('https://4voj6fn7d8.execute-api.us-east-1.amazonaws.com/dev/dashboardfetch', {
@@ -87,12 +96,12 @@ const PersonalDetails = () => {
       const data = await response.json();
       if (response.ok) {
         // navigate('/dashboard');
-        console.log('dataaa', data.user_details);
+        console.log('dataaaA', data);
         //   setPersonalInformation(data.signup_details);
         setEmployeeDetailsData(prevState => ({
           ...prevState,
-          employeeName: data.user_details.name !== "" ? data.user_details.name : "",
-          officialEmail: data.user_details.officialEmail !== "" ? data.user_details.officialEmail : "",
+          employeeName: data?.user_details?.name !== "" ? data.user_details.name : "",
+          officialEmail: data?.user_details?.officialEmail !== "" ? data.user_details.officialEmail : "",
           employeeId: data.user_details.employeeId !== "" ? data.user_details.employeeId : "",
           phoneNumber: data.user_details.phone !== "" ? data.user_details.phone : "",
           personalEmail: data.user_details.personalEmail !== "" ? data.user_details.personalEmail : "",
@@ -141,27 +150,38 @@ const PersonalDetails = () => {
   }
 
   const onNextButtonClick = () => {
-    console.log("employeeDetails", employeeDetailsData);
-    console.log('personal Data', personalData);
-    console.log('bankDeatilsData', bankDetailsData);
+
+    // console.log("employeeDetails", employeeDetailsData);
+    // console.log('personal Data', personalData);
+    // console.log('bankDeatilsData', bankDetailsData);
+    if(subMenuInfo.subMenu === 'Employee Details') {
+      dispatch(SubMenuInfoAction('Personal Details'))
+    } else if(subMenuInfo.subMenu === 'Personal Details') {
+      dispatch(SubMenuInfoAction('Qualification'))
+    } else if(subMenuInfo.subMenu === 'Qualification') {
+      dispatch(SubMenuInfoAction('Bank Details'))
+    } 
   }
 
   const onSubmitButtonClick = async () => {
+    const { employeeId, employeeName, officialEmail, phoneNumber, alternativeContact, personalEmail, techHiredFor, joiningDate, designation } = employeeDetailsData
+    const { panNumber, aadharNumber, dobOfficial, dobOriginal, spouseName, spouseAadharNumber, dobSpouse, fatherName, motherName, emergencyContact, bloodGroup, hobbies, others } = personalData
+    const {acNumber, ifscCode, nameAsPerBank, branchName, uan, pfNumber} = bankDetailsData;
     try {
       const params = {
-        "employeeId": "AX10804",
-        "name": "Hema Bodapoori",
-        "officialEmail": "hema.bodapoori@app-xcelerate.com",
-        "phone": "8790563034",
-        "technologyHired": "React JS",
-        "joiningDate": "2024-05-15",
-        "personalEmail": "b.hema1999@gmail.com",
+        "employeeId": employeeId,
+        "name": employeeName,
+        "officialEmail": officialEmail,
+        "phone": phoneNumber,
+        "technologyHired": techHiredFor,
+        "joiningDate": joiningDate,
+        "personalEmail": personalEmail,
         "permanentAddress": "",
         "currentAddress": "",
-        "panNumber": "BJEPH5805C",
-        "aadharNumber": "982690143213",
-        "dobOfficial": "",
-        "dobOriginal": "",
+        "panNumber": panNumber,
+        "aadharNumber": aadharNumber,
+        "dobOfficial": dobOfficial,
+        "dobOriginal": dobOriginal,
         "maritalStatus": "",
         "spouseName": "",
         "spouseAadharNumber": "",
@@ -170,10 +190,10 @@ const PersonalDetails = () => {
         "mothersName": "",
         "emergencyContact": "",
         "bankName": "SBI",
-        "accountNumber": "982690143213",
-        "ifscCode": "SBIN0000813",
-        "accountHolderName": "Hema Bodapoori",
-        "designationAppx": "",
+        "accountNumber": acNumber,
+        "ifscCode": ifscCode,
+        "accountHolderName": nameAsPerBank,
+        "designationAppx": designation,
         "technologyHiredAppx": "",
         "ctcOffered": "",
         "qualification": "",
@@ -225,7 +245,7 @@ const PersonalDetails = () => {
     const { employeeId, employeeName, officialEmail, phoneNumber, alternativeContact, personalEmail, techHiredFor, joiningDate, designation } = employeeDetailsData
     const { panNumber, aadharNumber, dobOfficial, dobOriginal, spouseName, spouseAadharNumber, dobSpouse, fatherName, motherName, emergencyContact, bloodGroup, hobbies, others } = personalData
     const {acNumber, ifscCode, nameAsPerBank, branchName, uan, pfNumber} = bankDetailsData;
-    switch (selectedMenu) {
+    switch (subMenuInfo.subMenu) {
       case 'Employee Details':
         return (
           <div className="form-container">
@@ -238,7 +258,7 @@ const PersonalDetails = () => {
               </Col>
               <Col>
                 <label className="form-label">Employee Name</label><br />
-                <input className="form-label-input" type="text" name="employeeName" disabled={true} onChange={handleEmployeeDetails} value={employeeName} />
+                <input className="form-label-input" type="text" name="employeeName" onChange={handleEmployeeDetails} value={employeeName} />
               </Col>
               <Col>
                 <label className="form-label">Official Email</label><br />
@@ -609,8 +629,6 @@ const PersonalDetails = () => {
                 <input className="form-label-input" type="text" name="nameAsPerBank" onChange={handleBankDetailsData}  value={nameAsPerBank}/>
               </Col>
             </Row>
-
-            {/* <p className ="form-sub-heading">UAN Details</p> */}
             <Row>
               <Col>
                 <label className="form-label">Branch</label> <br />
@@ -638,16 +656,16 @@ const PersonalDetails = () => {
     <div className="personal-details-container">
       <div className="personal-details-header-section" style={{ backgroundImage: `url(${headerBg})` }}>
         <img src={appxLogo} alt="AppX Logo" className="personal-details-appx-logo" onClick={gotoDefaultDashBoard} />
-        <h1 className="welcome-text">Personal Information</h1>
+        <h1 className="welcome-text">Welcome to Appx</h1>
         <div className="personal-details-logout" onClick={logOutFromTheApplication}>
           <img src={logoutIcon} alt="Logout" className="personal-details-logout-icon" />
           <span>Log out</span>
         </div>
       </div>
       <div className="personal-details-body" style={{ backgroundImage: `url(${contentBg})` }}>
-        <div className="left-section">
-          <h1 className="greeting">Hello SpaceMan !</h1>
-          <div className="personal-details-sidebar">
+        {/* <div className="left-section"> */}
+          {/* <h1 className="greeting">Hello SpaceMan !</h1> */}
+          {/* <div className="personal-details-sidebar">
             <ul className="personal-details-menu">
               {sections.map((section) => (
                 <li
@@ -659,18 +677,22 @@ const PersonalDetails = () => {
                 </li>
               ))}
             </ul>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
         <div className="personal-details-content">
           <ProgressBar progress={progress} />
           <div className="form-card">
             {renderForm()}
           </div>
           <div className="button-container">
-            <Button className='next-button' onClick={onNextButtonClick}>Next</Button>
-          </div>
-          <div className="button-container">
-            <Button className='next-button' onClick={onSubmitButtonClick}>Submit</Button>
+          <Button className='save-button' onClick={onNextButtonClick}>Save</Button> 
+           {subMenuInfo.subMenu !== 'Bank Details' ? 
+           
+           <Button className='next-button' onClick={onNextButtonClick}>Next</Button> : null }
+          
+            {subMenuInfo.subMenu === 'Bank Details' ? 
+            <Button className='next-button' onClick={onSubmitButtonClick}>Submit</Button> : null
+             }
           </div>
         </div>
       </div>
