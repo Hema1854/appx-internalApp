@@ -9,7 +9,10 @@ import { Button, Col, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { SubMenuInfoAction } from '../../Redux/Action/SubMenuInfoAction';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
+import 'flag-icon-css/css/flag-icons.min.css';
 
 const sections = ['Employee Details', 'Personal Details', 'Qualification', 'Bank Details'];
 
@@ -53,7 +56,7 @@ const PersonalDetails = () => {
   const [qualificationData, setQualificationData] = useState({
     havePriorExp: false,
   })
-  
+
   const [bankDetailsData, setbankDetailsData] = useState({
     acNumber: "",
     ifscCode:"",
@@ -85,7 +88,7 @@ const PersonalDetails = () => {
         email: loginInfo.userEmail
       };
 
-      const response = await fetch('https://4voj6fn7d8.execute-api.us-east-1.amazonaws.com/dev/dashboardfetch', {
+      const response = await fetch('https://4ljgkngzqa.execute-api.us-east-1.amazonaws.com/dev/dashboardfetch', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -98,6 +101,8 @@ const PersonalDetails = () => {
         // navigate('/dashboard');
         console.log('dataaaA', data);
         //   setPersonalInformation(data.signup_details);
+//navigate('/dashboard');
+        console.log('dataaa', data.user_details);
         setEmployeeDetailsData(prevState => ({
           ...prevState,
           employeeName: data?.user_details?.name !== "" ? data.user_details.name : "",
@@ -105,15 +110,12 @@ const PersonalDetails = () => {
           employeeId: data.user_details.employeeId !== "" ? data.user_details.employeeId : "",
           phoneNumber: data.user_details.phone !== "" ? data.user_details.phone : "",
           personalEmail: data.user_details.personalEmail !== "" ? data.user_details.personalEmail : "",
-
         }));
-
       } else {
         console.log('Not getting data', data.message);
       }
     } catch (error) {
       console.error('Error during login:', error);
-      // setError('An error occurred during login');
     }
   }
 
@@ -146,9 +148,7 @@ const PersonalDetails = () => {
       ...prevState,
       [name]: value
     }));
-
   }
-
   const onNextButtonClick = () => {
 
     // console.log("employeeDetails", employeeDetailsData);
@@ -162,73 +162,55 @@ const PersonalDetails = () => {
       dispatch(SubMenuInfoAction('Bank Details'))
     } 
   }
-
   const onSubmitButtonClick = async () => {
     const { employeeId, employeeName, officialEmail, phoneNumber, alternativeContact, personalEmail, techHiredFor, joiningDate, designation } = employeeDetailsData
     const { panNumber, aadharNumber, dobOfficial, dobOriginal, spouseName, spouseAadharNumber, dobSpouse, fatherName, motherName, emergencyContact, bloodGroup, hobbies, others } = personalData
     const {acNumber, ifscCode, nameAsPerBank, branchName, uan, pfNumber} = bankDetailsData;
     try {
       const params = {
-        "employeeId": employeeId,
-        "name": employeeName,
-        "officialEmail": officialEmail,
-        "phone": phoneNumber,
-        "technologyHired": techHiredFor,
-        "joiningDate": joiningDate,
-        "personalEmail": personalEmail,
-        "permanentAddress": "",
-        "currentAddress": "",
-        "panNumber": panNumber,
-        "aadharNumber": aadharNumber,
-        "dobOfficial": dobOfficial,
-        "dobOriginal": dobOriginal,
-        "maritalStatus": "",
-        "spouseName": "",
-        "spouseAadharNumber": "",
-        "dobSpouse": "",
-        "fathersName": "",
-        "mothersName": "",
-        "emergencyContact": "",
-        "bankName": "SBI",
-        "accountNumber": acNumber,
-        "ifscCode": ifscCode,
-        "accountHolderName": nameAsPerBank,
-        "designationAppx": designation,
-        "technologyHiredAppx": "",
-        "ctcOffered": "",
-        "qualification": "",
-        "experienceType": "",
-        "overallExperience": "",
-        "itExperience": "",
-        "previousCompany": "",
-        "designationPrevCompany": ""
+          "employeeId": employeeDetailsData.employeeId,
+          "name": employeeDetailsData.employeeName,
+          "officialEmail": employeeDetailsData.officialEmail,
+          "phone": employeeDetailsData.phoneNumber,
+          "technologyHired": employeeDetailsData.techHiredFor,
+          "joiningDate": employeeDetailsData.joiningDate,
+          "personalEmail": employeeDetailsData.personalEmail,
+          "panNumber": personalData.panNumber,
+          "aadharNumber": personalData.aadharNumber,
+          "dobOfficial": personalData.dobOfficial,
+          "dobOriginal": personalData.dobOriginal,
+          "spouseName": personalData.spouseName,
+          "spouseAadharNumber": personalData.spouseAadharNumber,
+          "dobSpouse": personalData.dobSpouse,
+          "fatherName": personalData.fatherName,
+          "motherName": personalData.motherName,
+          "emergencyContact": personalData.emergencyContact,
+          "bloodGroup": personalData.bloodGroup,
+          "hobbies": personalData.hobbies,
+          "others": personalData.others,
+          "acNumber": bankDetailsData.acNumber,
+          "ifscCode": bankDetailsData.ifscCode,
+          "nameAsPerBank": bankDetailsData.nameAsPerBank,
+          "branchName": bankDetailsData.branchName,
+          "uan": bankDetailsData.uan,
+          "pfNumber": bankDetailsData.pfNumber
       };
-
-      const response = await fetch('https://4voj6fn7d8.execute-api.us-east-1.amazonaws.com/dev/personaldetails', {
+      const response = await fetch('https://4ljgkngzqa.execute-api.us-east-1.amazonaws.com/dev/personaldetails', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(params)
       });
-
+  
       const data = await response.json();
       if (response.ok) {
-        // navigate('/dashboard');
         console.log('SuccessFully Submitted');
-        //   setPersonalInformation(data.signup_details);
-        //   setEmployeeDetailsData(prevState => ({
-        //     ...prevState,
-        //     employeeName: data.signup_details.fullname !== "" ? data.signup_details.fullname : "",
-        //     officialEmail: data.signup_details.email !== "" ? data.signup_details.email : ""
-        // }));
-
       } else {
         console.log('Not getting data', data.message);
       }
     } catch (error) {
       console.error('Error during login:', error);
-      // setError('An error occurred during login');
     }
   }
 
@@ -238,8 +220,6 @@ const PersonalDetails = () => {
       havePriorExp: !prevData.havePriorExp,
     }));
   };
-
-
 
   const renderForm = () => {
     const { employeeId, employeeName, officialEmail, phoneNumber, alternativeContact, personalEmail, techHiredFor, joiningDate, designation } = employeeDetailsData
@@ -253,43 +233,60 @@ const PersonalDetails = () => {
               <h1 className="section-heading">Employee Details</h1></center>
             <Row>
               <Col>
-                <label className="form-label">Employee ID</label><br />
+                <label className="form-label">Employee ID <span className="required">*</span></label><br />
                 <input className="form-label-input" type="text" name="employeeId" onChange={handleEmployeeDetails} value={employeeId} />
               </Col>
               <Col>
-                <label className="form-label">Employee Name</label><br />
+                <label className="form-label">Employee Name<span className="required">*</span></label><br />
                 <input className="form-label-input" type="text" name="employeeName" onChange={handleEmployeeDetails} value={employeeName} />
               </Col>
               <Col>
-                <label className="form-label">Official Email</label><br />
-                <input className="form-label-input" disabled={true} type="text" name="officialEmail" onChange={handleEmployeeDetails} value={officialEmail} />
+                <label className="form-label">Official Email<span className="required">*</span></label><br />
+                <input className="form-label-input"  type="text" name="officialEmail" onChange={handleEmployeeDetails} value={officialEmail} />
               </Col>
             </Row>
             <Row>
               <Col>
-                <label className="form-label">Phone</label> <br />
-                <input className="form-label-input" type="text" name="phoneNumber" onChange={handleEmployeeDetails} value={phoneNumber} />
+                <label className="form-label">Phone<span className="required">*</span></label> <br />
+                <PhoneInput 
+  country={'in'}
+  value={phoneNumber}
+  onChange={(phone) => {
+    console.log('Phone number changed:', phone); // This will log the phone number when it changes
+    setEmployeeDetailsData(prevState => ({
+      ...prevState,
+      phoneNumber: phone
+    }));
+  }}
+/>
               </Col>
               <Col>
-                <label className="form-label">Alternative Contact</label><br />
-                <input className="form-label-input" type="text" name="alternativeContact" onChange={handleEmployeeDetails} value={alternativeContact} />
+                <label className="form-label">Alternative Contact Number</label> <br />
+                <PhoneInput 
+                  country={'in'}
+                  value={alternativeContact}
+                  onChange={(phone) => setEmployeeDetailsData(prevState => ({
+                    ...prevState,
+                    alternativeContact: phone
+                  }))}
+                />
               </Col>
               <Col>
-                <label className="form-label">Personal Email</label><br />
+                <label className="form-label">Personal Email</label> <br />
                 <input className="form-label-input" type="text" name="personalEmail" onChange={handleEmployeeDetails} value={personalEmail} />
               </Col>
             </Row>
             <Row>
               <Col>
-                <label className="form-label">Technology hired for</label><br />
+                <label className="form-label">Technology Hired For</label> <br />
                 <input className="form-label-input" type="text" name="techHiredFor" onChange={handleEmployeeDetails} value={techHiredFor} />
               </Col>
               <Col>
-                <label className="form-label">Joining Date</label><br />
+                <label className="form-label">Joining Date</label> <br />
                 <input className="form-label-input" type="date" name="joiningDate" onChange={handleEmployeeDetails} value={joiningDate} />
               </Col>
               <Col>
-                <label className="form-label">Designation</label><br />
+                <label className="form-label">Designation</label> <br />
                 <input className="form-label-input" type="text" name="designation" onChange={handleEmployeeDetails} value={designation} />
               </Col>
             </Row>
@@ -297,7 +294,7 @@ const PersonalDetails = () => {
 
           </div>
         );
-
+        
       case 'Personal Details':
         return (
           <div className="form-container">
@@ -305,11 +302,11 @@ const PersonalDetails = () => {
               <h1 className="section-heading">Personal Details</h1></center>
             <Row>
               <Col className="section-heading-col">
-                <label className="form-label">PAN Number</label><br />
+                <label className="form-label">PAN Number<span className="required">*</span></label><br />
                 <input className="form-label-input" type="text" name="panNumber" onChange={handlePersonalData} value={panNumber} />
               </Col>
               <Col className="section-heading-col">
-                <label className="form-label">Aadhar Number</label><br />
+                <label className="form-label">Aadhar Number<span className="required">*</span></label><br />
                 <input className="form-label-input" type="text" name="aadharNumber" onChange={handlePersonalData} value={aadharNumber} />
               </Col>
               <Col className="section-heading-col">
@@ -531,82 +528,7 @@ const PersonalDetails = () => {
                 <input className="form-label-input" type="text" name="officialEmail" />
               </Col>
             </Row>
-            {/* <Row>
-              <Col>
-                <label className="form-label">Start Year</label> <br />
-                <input className="form-label-input" type="text" name="phone" />
-              </Col>
-              <Col>
-                <label className="form-label">End Year(Actual/Expected)</label><br />
-                <input className="form-label-input" type="text" name="alternativeContact" />
-              </Col>
-              <Col>
-                <label className="form-label">Grade/Percentage</label><br />
-                <input className="form-label-input" type="text" name="personalEmail" />
-              </Col>
-            </Row>
-            <div>
-              <p className = "personal-dtls-sub-heading">Post Graduation Details</p>
-            </div>
-            <Row>
-              <Col>
-                <label className="form-label">Post Graduate Degree</label><br />
-                <input className="form-label-input" ='e.g. M.Tech' placeholdertype="text" name="permanentAddress" />
-              </Col>
-              <Col>
-                <label className="form-label">Field of Study</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
-              </Col>
-              <Col>
-                <label className="form-label">College/University</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <label className="form-label">Start Year</label><br />
-                <input className="form-label-input" type="text" name="permanentAddress" />
-              </Col>
-              <Col>
-                <label className="form-label">End Year(Actual/Expected)</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
-              </Col>
-              <Col>
-                <label className="form-label">Grade/Percentage</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
-              </Col>
-            </Row>
-            <div>
-              <p className = "personal-dtls-sub-heading">Additional Education (if applicable) :-</p>
-            </div>
-            <Row>
-              <Col>
-                <label className="form-label">Post Graduate Degree</label><br />
-                <input className="form-label-input" placeholder='e.g. M.Tech' type="text" name="permanentAddress" />
-              </Col>
-              <Col>
-                <label className="form-label">Field of Study</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
-              </Col>
-              <Col>
-                <label className="form-label">College/University</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <label className="form-label">Start Year</label><br />
-                <input className="form-label-input" type="text" name="permanentAddress" />
-              </Col>
-              <Col>
-                <label className="form-label">End Year(Actual/Expected)</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
-              </Col>
-              <Col>
-                <label className="form-label">Grade/Percentage</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
-              </Col>
-            </Row> */}
+          
           </div> : null}
           </>
         );
@@ -617,21 +539,21 @@ const PersonalDetails = () => {
               <h1 className="section-heading">Bank Details</h1></center>
             <Row>
               <Col>
-                <label className="form-label">Account Number</label><br />
+                <label className="form-label">Account Number<span className="required">*</span></label><br />
                 <input className="form-label-input" type="text" name="acNumber" onChange={handleBankDetailsData} value = {acNumber} />
               </Col>
               <Col>
-                <label className="form-label">IFSC Code</label> <br />
+                <label className="form-label">IFSC Code<span className="required">*</span></label> <br />
                 <input className="form-label-input" type="text" name="ifscCode" onChange={handleBankDetailsData} value={ifscCode} />
               </Col>
               <Col>
-                <label className="form-label">Name as per A/C</label><br />
+                <label className="form-label">Name as per A/C<span className="required">*</span></label><br />
                 <input className="form-label-input" type="text" name="nameAsPerBank" onChange={handleBankDetailsData}  value={nameAsPerBank}/>
               </Col>
             </Row>
             <Row>
               <Col>
-                <label className="form-label">Branch</label> <br />
+                <label className="form-label">Branch<span className="required">*</span></label> <br />
                 <input className="form-label-input" type="text" name="branchName" onChange={handleBankDetailsData} value={branchName} />
               </Col>
               <Col>

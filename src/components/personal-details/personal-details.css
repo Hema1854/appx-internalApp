@@ -292,3 +292,8 @@
   align-items: center;
   margin-top: 10px;
 }
+.required {
+  color: red;
+  font-size: 1.2em;
+  margin-left: 5px;
+}
