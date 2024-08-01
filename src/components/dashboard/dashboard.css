@@ -20,6 +20,7 @@
   overflow-y: auto;
   transition: width 0.3s;
 }
+
 .profile {
   text-align: center;
   margin-bottom: 2px;
@@ -63,6 +64,7 @@
   height: 24px;
   transition: width 0.3s, height 0.3s;
 }
+
 .dashboard-left-menu-item span {
   display: inline-block;
   transition: opacity 0.3s;
@@ -83,6 +85,7 @@
 .dashboard-left-menu-item:hover img {
   filter: invert(30%) sepia(72%) saturate(4805%) hue-rotate(246deg) brightness(89%) contrast(95%);
 }
+
 .dashboard-left-menu-item.selected {
   background-color: #3f0872;
   color: #bb54e7 !important;
@@ -218,13 +221,16 @@
   justify-content: flex-end;
   width: 100%;
 }
+
 .toggle-button img {
   width: 20px;
   height: 20px;
 }
+
 .collapsed .menu-item span {
   display: none;
 }
+
 .collapsed .profile-pic {
   width: 40px;
   height: 40px;
@@ -238,6 +244,7 @@
   width: 20px;
   height: 20px;
 }
+
 .welcome-text {
   color: #bc97df;
 }
@@ -252,6 +259,38 @@
   width: 100%;
   box-sizing: border-box;
 }
-.dashboard-left-menu-item.collapsed:hover {
-  background-color: #bb54e7;
+
+/* Styles when the sidebar is collapsed */
+.dashboard.collapsed .dashboard-left-menu-item.open .dashboard-left-submenu {
+  left: 100%; /* Adjust left position to show outside the collapsed sidebar */
+  top: 0; 
+  margin:0;/* Adjust top position if needed */
 }
+/* Ensure submenu fits within the viewport */
+.dashboard-left-submenu {
+  max-height: 400px; /* Adjust as needed */
+  overflow-y: auto; /* Allow scrolling if submenu is too tall */
+
+}
+
+
+
+
+
+/* /* Popup submenu when sidebar is collapsed / */
+.dashboard.collapsed .dashboard-left-menu-item.open .dashboard-left-submenu {
+display: block;
+position: fixed; 
+top: 100px; 
+left: 65px; 
+width:220px;
+height:200px;
+background-color: #f3f2f5; 
+z-index: 1000;
+box-shadow:#fbfbfc;
+}
+
+.dashboard.collapsed .dashboard-left-submenu {
+max-height: calc(100vh - 80px); 
+overflow-y: auto; 
+} 
