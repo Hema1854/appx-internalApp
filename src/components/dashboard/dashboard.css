@@ -9,19 +9,17 @@
   display:flex;
   flex-direction: column;
   align-items: center;
-  
- 
 }
-
 .sidebar {
-  width: 220px;
+  height: 100vh;
+  width: 250px;
   background-color: #b260ff;
-  padding: 0px 1px 0px 0px;
+  padding: 0px;
   color: white;
-  transition: width 0.3s;
   position: relative;
+  overflow-y: auto;
+  transition: width 0.3s;
 }
-
 .profile {
   text-align: center;
   margin-bottom: 2px;
@@ -47,6 +45,7 @@
 .dashboard-left-menu {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .dashboard-left-menu-item {
@@ -55,24 +54,10 @@
   display: flex;
   align-items: center;
   transition: background-color 0.3s, color 0.3s;
+  position: relative;
 }
-.dashboard-left-menu-dropdown {
-  padding: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  transition: background-color 0.3s, color 0.3s;
-}
-
 
 .dashboard-left-menu-item img {
-  margin-bottom: 3px;
-  width: 24px;
-  height: 24px;
-  transition: width 0.3s, height 0.3s;
-}
-
-.dashboard-left-menu-dropdown img {
   margin-bottom: 3px;
   width: 24px;
   height: 24px;
@@ -85,40 +70,76 @@
   font-weight: bold;
   margin-left: 10px;
 }
-.dashboard-left-menu-dropdown span {
-  display: inline-block;
-  transition: opacity 0.3s;
-  color: #fff;
-  font-weight: bold;
-  margin-left: 10px;
-}
 
 .dashboard-left-menu-item:hover {
   background-color: #fbfbfc;
   color: #bb54e7 !important;
 }
 
-.dashboard-left-menu-dropdown:hover {
-  background-color: #fbfbfc;
-  color: #bb54e7 !important;
-}
 .dashboard-left-menu-item:hover span {
-  color: #bb54e7 !important;
-}
-.dashboard-left-menu-dropdown:hover span {
   color: #bb54e7 !important;
 }
 
 .dashboard-left-menu-item:hover img {
   filter: invert(30%) sepia(72%) saturate(4805%) hue-rotate(246deg) brightness(89%) contrast(95%);
 }
-.dashboard-left-menu-dropdown:hover img {
-  filter: invert(30%) sepia(72%) saturate(4805%) hue-rotate(246deg) brightness(89%) contrast(95%);
-}
 .dashboard-left-menu-item.selected {
-  background-color: #3f0872 ;
+  background-color: #3f0872;
   color: #bb54e7 !important;
 }
+
+.dashboard-left-menu-item.open {
+  margin-bottom: 170px; /* Space below the expanded submenu */
+}
+
+.submenu-arrow {
+  margin-left: auto;
+  margin-right: 10px;
+  font-size: 16px;
+  display: inline-block; /* Ensure the arrow is inline with the text */
+}
+
+.dashboard-left-submenu {
+  list-style: none;
+  padding-left: 20px;
+  margin: 0;
+  display: none; /* Hide submenu by default */
+  position: absolute; /* Position it absolutely within the parent */
+ background-color: #f8f0ff;
+  width: 100%; /* Adjust width to fit your design */
+  top: 100%; /* Position below the menu item */
+  left: 0;
+  z-index: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: for a subtle shadow effect */
+}
+
+.dashboard-left-menu-item.open .dashboard-left-submenu {
+  display: block; /* Show submenu when parent is open */
+}
+
+.dashboard-left-submenu li {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #bb54e7;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dashboard-left-submenu li:hover {
+  background-color: #bb54e7;
+  color: #faf9fb !important;
+}
+
+.dashboard-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+.content-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .main-content {
   flex: 1;
   display: flex;
@@ -151,7 +172,6 @@
   background-color: rgba(23, 0, 44, 0.67);
   z-index: -1;
 }
-
 
 .carousel {
   width: 70%;
@@ -196,32 +216,15 @@
   cursor: pointer;
   display: flex;
   justify-content: flex-end;
-  width: 100%; 
-}
-.toggle-button.collapsed {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  justify-content: flex-end;
-  width: 100%; 
+  width: 100%;
 }
 .toggle-button img {
   width: 20px;
   height: 20px;
 }
-.collapsed.toggle-button{
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  justify-content: flex-end;
-  width: 100%; 
-}
 .collapsed .menu-item span {
   display: none;
 }
-
 .collapsed .profile-pic {
   width: 40px;
   height: 40px;
@@ -229,16 +232,12 @@
 
 .collapsed .profile-name {
   display: none;
-}
+} 
 
 .collapsed .menu-item img {
   width: 20px;
   height: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-} 
+}
 .welcome-text {
   color: #bc97df;
 }
@@ -253,49 +252,6 @@
   width: 100%;
   box-sizing: border-box;
 }
-.dashboard-left-menu-item.collapsed:hover{
+.dashboard-left-menu-item.collapsed:hover {
   background-color: #bb54e7;
-}
-
-.dashboard-left-menu .dropdown {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  margin-left: 20px; /* Indent dropdown items */
-}
-
-.dashboard-left-menu .dropdown-item {
-  padding: 5px 0;
-}
-
-.accordion .card-header {
-  background-color: #b260ff;
-  color: white;
-  cursor: pointer;
-}
-
-.accordion .card-body {
-  background-color: #fff;
-  color: #000;
-}
-
-.accordion .btn-link {
-  color: white;
-}
-
-.accordion .btn-link:hover {
-  text-decoration: none;
-  color: #bb54e7;
-}
-
-.accordion-header {
-  display: flex;
-  align-items: center;
-  /* padding: 10px 20px; */
-  cursor: pointer;
-}
-
-.accordion-body {
-  padding: 0 20px;
-  list-style: none;
 }

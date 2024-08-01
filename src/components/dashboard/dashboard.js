@@ -11,12 +11,13 @@ import travdecwhite from '../images/Trav Dec White.png';
 import calwhite from '../images/Cal White.png';
 import gallerywhite from '../images/Gallery White.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { Accordion } from 'react-bootstrap';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa'; // Import arrow icons
 import { SubMenuInfoAction } from '../../Redux/Action/SubMenuInfoAction';
 
 const Dashboard = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState('');
+  const [isPersonalInfoOpen, setIsPersonalInfoOpen] = useState(false); // State to manage Personal Information submenu
   const loginInfo = useSelector((state) => state.LoginInfoReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const Dashboard = () => {
   };
 
   const menuItems = [
-    { name: 'Personal Information', icon: personalinfowhite },
+    { name: 'Personal Information', icon: personalinfowhite, subMenu: ['Employee Details', 'Personal Details', 'Qualification', 'Bank Details'] },
     { name: 'Medical Declaration', icon: meddecwhite },
     { name: 'Travel Declaration', icon: travdecwhite },
     { name: 'Holidays 2024', icon: calwhite },
@@ -35,7 +36,6 @@ const Dashboard = () => {
 
   const handleNavigation = (path, subMenu) => {
     navigate(`${path}`);
-    // setSelectedMenu(path);
     dispatch(SubMenuInfoAction(subMenu));
   };
 
@@ -63,32 +63,34 @@ const Dashboard = () => {
               {menuItems.map((item, index) => (
                 <li
                   key={index}
-                  className={`${item.name !== 'Personal Information' ? 'dashboard-left-menu-item' : 'dashboard-left-menu-dropdown'} ${(selectedMenu === item.name && item.name !== 'Personal Information') ? 'selected' : ''}`}
-                  style={item.name === 'Personal Information' ? { padding: '8px 0px' } : {}}
-                  onClick={() => setSelectedMenu(item.name)}
+                  className={`dashboard-left-menu-item ${selectedMenu === item.name ? 'selected' : ''} ${item.name === 'Personal Information' && isPersonalInfoOpen ? 'open' : ''}`}
+                  onClick={() => {
+                    if (item.name === 'Personal Information') {
+                      setIsPersonalInfoOpen(!isPersonalInfoOpen);
+                      setSelectedMenu(''); // Optional: clear selected menu if needed
+                    } else {
+                      setSelectedMenu(item.name);
+                      setIsPersonalInfoOpen(false); // Close submenu when other menu is selected
+                    }
+                  }}
                 >
-                  {item.name !== 'Personal Information' ? (
-                    <NavLink to={`${item.name.toLowerCase().replace(' ', '-')}`} end>
-                      <img src={item.icon} alt={item.name} />
-                      {!isSidebarCollapsed && <span>{item.name}</span>}
-                    </NavLink>
-                  ) : (
-                    <Accordion defaultActiveKey="0">
-                      <Accordion.Item eventKey="0">
-                        <Accordion.Header onClick={() => handleNavigation('personal-information', 'Employee Details')}>
-                          <img src={item.icon} alt={item.name} />
-                          {!isSidebarCollapsed && <span>{item.name}</span>}
-                        </Accordion.Header>
-                        <Accordion.Body>
-                          <ul className='dashboard-left-menu'>
-                            <li onClick={() => handleNavigation('personal-information', 'Employee Details')}>Employee Details</li>
-                            <li onClick={() => handleNavigation('personal-information', 'Personal Details')}>Personal Details</li>
-                            <li onClick={() => handleNavigation('personal-information', 'Qualification')}>Qualification</li>
-                            <li onClick={() => handleNavigation('personal-information', 'Bank Details')}>Bank Details</li>
-                          </ul>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    </Accordion>
+                  <NavLink to={`${item.name.toLowerCase().replace(' ', '-')}`} end>
+                    <img src={item.icon} alt={item.name} />
+                    {!isSidebarCollapsed && <span>{item.name}</span>}
+                    {item.name === 'Personal Information' && !isSidebarCollapsed && (
+                      <span className="submenu-arrow">
+                        {isPersonalInfoOpen ? <FaChevronUp /> : <FaChevronDown />}
+                      </span>
+                    )}
+                  </NavLink>
+                  {item.name === 'Personal Information' && isPersonalInfoOpen && (
+                    <ul className='dashboard-left-submenu'>
+                      {item.subMenu.map((subItem, subIndex) => (
+                        <li key={subIndex} onClick={() => handleNavigation('personal-information', subItem)}>
+                          {subItem}
+                        </li>
+                      ))}
+                    </ul>
                   )}
                 </li>
               ))}
