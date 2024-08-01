@@ -11,13 +11,13 @@ import travdecwhite from '../images/Trav Dec White.png';
 import calwhite from '../images/Cal White.png';
 import gallerywhite from '../images/Gallery White.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa'; // Import arrow icons
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { SubMenuInfoAction } from '../../Redux/Action/SubMenuInfoAction';
 
 const Dashboard = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState('');
-  const [isPersonalInfoOpen, setIsPersonalInfoOpen] = useState(false); // State to manage Personal Information submenu
+  const [isPersonalInfoOpen, setIsPersonalInfoOpen] = useState(false);
   const loginInfo = useSelector((state) => state.LoginInfoReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -67,10 +67,10 @@ const Dashboard = () => {
                   onClick={() => {
                     if (item.name === 'Personal Information') {
                       setIsPersonalInfoOpen(!isPersonalInfoOpen);
-                      setSelectedMenu(''); // Optional: clear selected menu if needed
+                      setSelectedMenu('');
                     } else {
                       setSelectedMenu(item.name);
-                      setIsPersonalInfoOpen(false); // Close submenu when other menu is selected
+                      setIsPersonalInfoOpen(false);
                     }
                   }}
                 >

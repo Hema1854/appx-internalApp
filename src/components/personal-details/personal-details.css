@@ -17,7 +17,7 @@
   box-sizing: border-box;
   position: relative;
   z-index: 1;
-  color: white; /* Ensure text is white for better contrast */
+  color: white;
 }
 .welcome-text{
   font-size: 36px;
@@ -31,7 +31,7 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-y: auto;
 }
 
 .left-section {
@@ -83,7 +83,7 @@
 }
 
 .personal-details-menu-item:hover {
-  background-color:#dcb1ff; /* Adjust the hover color as needed */
+  background-color:#dcb1ff;
   color: #3f0872;
 }
 .personal-details-menu-item.selected{
@@ -116,10 +116,9 @@
 
 .form-container {
   width: 100%;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  align-items: center;
+  align-items: center; */
 }
 
 .form {
@@ -258,10 +257,7 @@
 
 .form-sub-heading {
   font-size: 16px;
-  /* text-align: center; */
   color: #5e13a0;
-  /* position: relative; */
-  /* display: inline-block; */
   font-weight: 600;
   margin-top: 20px;
 }
@@ -283,9 +279,9 @@
   position: absolute;
   text-align: center;
   right: -11px; 
-  bottom: -3px; /* Adjust the distance from the text */
+  bottom: -3px;
   width: 110%;
-  height: 1.5px; /* Adjust the thickness */
+  height: 1.5px;
   background-color: #ad57f8;
  
 }

@@ -42,6 +42,7 @@ const PersonalDetails = () => {
     aadharNumber: "",
     dobOfficial: "",
     dobOriginal: "",
+    maritalStatus: "",
     spouseName: "",
     spouseAadharNumber: "",
     dobSpouse: "",
@@ -51,6 +52,7 @@ const PersonalDetails = () => {
     bloodGroup: "",
     hobbies: "",
     others: "",
+    numberOfChildren: 3,
   })
 
   const [qualificationData, setQualificationData] = useState({
@@ -111,6 +113,8 @@ const PersonalDetails = () => {
             employeeId: data.user_details.employeeId !== "" ? data.user_details.employeeId : "",
             phoneNumber: data.user_details.phone !== "" ? data.user_details.phone : "",
             personalEmail: data.user_details.personalEmail !== "" ? data.user_details.personalEmail : "",
+            techHiredFor: data.user_details.technologyHired !== "" ? data.user_details.technologyHired : "",
+            joiningDate: data.user_details.joiningDate !== "" ? data.user_details.joiningDate : "",
           }));
         }
         
@@ -163,8 +167,9 @@ const PersonalDetails = () => {
   }
   const onSaveButtonClick = async() => {
     const { employeeId, employeeName, officialEmail, phoneNumber, alternativeContact, personalEmail, techHiredFor, joiningDate, designation } = employeeDetailsData
-    const { panNumber, aadharNumber, dobOfficial, dobOriginal, spouseName, spouseAadharNumber, dobSpouse, fatherName, motherName, emergencyContact, bloodGroup, hobbies, others } = personalData
+    const { panNumber, aadharNumber, dobOfficial,maritalStatus, dobOriginal, spouseName, spouseAadharNumber, dobSpouse, fatherName, motherName, emergencyContact, bloodGroup, hobbies, others } = personalData
     // const {acNumber, ifscCode, nameAsPerBank, branchName, uan, pfNumber} = bankDetailsData;
+    console.log('joiningDate', maritalStatus);
     try {
       const params = {
           "employeeId": employeeDetailsData.employeeId ,
@@ -283,8 +288,8 @@ const PersonalDetails = () => {
   };
 
   const renderForm = () => {
-    const { employeeId, employeeName, officialEmail, phoneNumber, alternativeContact, personalEmail, techHiredFor, joiningDate, designation } = employeeDetailsData
-    const { panNumber, aadharNumber, dobOfficial, dobOriginal, spouseName, spouseAadharNumber, dobSpouse, fatherName, motherName, emergencyContact, bloodGroup, hobbies, others } = personalData
+    const { employeeId, employeeName, officialEmail,numberOfChildren, phoneNumber, alternativeContact, personalEmail, techHiredFor, joiningDate, designation } = employeeDetailsData
+    const { panNumber, aadharNumber, dobOfficial,maritalStatus, dobOriginal, spouseName, spouseAadharNumber, dobSpouse, fatherName, motherName, emergencyContact, bloodGroup, hobbies, others } = personalData
     const {acNumber, ifscCode, nameAsPerBank, branchName, uan, pfNumber} = bankDetailsData;
     const {employeeIdErr, employeeNameErr, officialEmailErr, phoneNumberErr} = employeeDetailsErr;
     switch (subMenuInfo.subMenu) {
@@ -293,7 +298,7 @@ const PersonalDetails = () => {
           <div className="form-container">
             <center>
               <h1 className="section-heading">Employee Details</h1></center>
-            <Row>
+            <Row xs={1} md={2} lg={4}>
               <Col>
                 <label className="form-label"><span className="required">*</span>Employee ID </label><br />
                 <input className={`form-label-input ${ employeeIdErr? 'error-border' : ''}`}
@@ -308,8 +313,12 @@ const PersonalDetails = () => {
                 <label className="form-label"><span className="required">*</span>Official Email</label><br />
                 <input className="form-label-input" disabled = {true} type="text" name="officialEmail" onChange={handleEmployeeDetails} value={loginInfo.userEmail} />
               </Col>
+              <Col>
+                <label className="form-label">Personal Email</label> <br />
+                <input className="form-label-input" type="text" name="personalEmail" onChange={handleEmployeeDetails} value={personalEmail} />
+              </Col>
             </Row>
-            <Row>
+            <Row xs={1} md={2} lg={4}>
               <Col>
                 <label className="form-label"><span className="required">*</span>Phone</label> <br />
                 <PhoneInput
@@ -354,12 +363,6 @@ const PersonalDetails = () => {
                 />
               </Col>
               <Col>
-                <label className="form-label">Personal Email</label> <br />
-                <input className="form-label-input" type="text" name="personalEmail" onChange={handleEmployeeDetails} value={personalEmail} />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
                 <label className="form-label">Technology Hired For</label> <br />
                 <input className="form-label-input" type="text" name="techHiredFor" onChange={handleEmployeeDetails} value={techHiredFor} />
               </Col>
@@ -367,6 +370,10 @@ const PersonalDetails = () => {
                 <label className="form-label">Joining Date</label> <br />
                 <input className="form-label-input" type="date" name="joiningDate" onChange={handleEmployeeDetails} value={joiningDate} />
               </Col>
+              
+            </Row>
+            <Row xs={1} md={2} lg={4}>
+             
               <Col>
                 <label className="form-label">Designation</label> <br />
                 <input className="form-label-input" type="text" name="designation" onChange={handleEmployeeDetails} value={designation} />
@@ -381,8 +388,9 @@ const PersonalDetails = () => {
         return (
           <div className="form-container">
             <center>
-              <h1 className="section-heading">Personal Details</h1></center>
-            <Row>
+              <h1 className="section-heading">Personal Details</h1>
+            </center>
+            <Row xs={1} md={2} lg={4}>
               <Col className="section-heading-col">
                 <label className="form-label"><span className="required">*</span>PAN Number</label><br />
                 <input className="form-label-input" type="text" name="panNumber" onChange={handlePersonalData} value={panNumber} />
@@ -391,47 +399,77 @@ const PersonalDetails = () => {
                 <label className="form-label"><span className="required">*</span>Aadhar Number</label><br />
                 <input className="form-label-input" type="text" name="aadharNumber" onChange={handlePersonalData} value={aadharNumber} />
               </Col>
-              <Col className="section-heading-col">
+              <Col>
+                <label className="form-label"><span className="required">*</span>Emergency Contact Details</label><br />
+                <input className="form-label-input" type="text" name="emergencyContact" onChange={handlePersonalData} value={emergencyContact} />
+              </Col>
+              <Col>
+                <label className="form-label">Blood Group</label><br />
+                <input className="form-label-input" type="text" name="bloodGroup" onChange={handlePersonalData} value={bloodGroup} />
+              </Col>
+             
+              
+            </Row>
+            <Row xs={1} md={2} lg={4}>
+            <Col className="section-heading-col">
                 <label className="form-label">Official Date of Birth</label><br />
                 <input className="form-label-input" type="date" name="dobOfficial" onChange={handlePersonalData} value={dobOfficial} />
               </Col>
-            </Row>
-            <Row>
+            
               <Col>
                 <label className="form-label">Original Date of Birth</label><br />
                 <input className="form-label-input" type="date" name="dobOriginal" onChange={handlePersonalData} value={dobOriginal} />
               </Col>
               <Col>
+                <label className="form-label"><span className="required">*</span>Father Name</label><br />
+                <input className="form-label-input" type="text" name="fatherName" onChange={handlePersonalData} value={fatherName} />
+              </Col>
+              <Col>
+                <label className="form-label"><span className="required">*</span>Mother Name</label><br />
+                <input className="form-label-input" type="text" name="motherName" onChange={handlePersonalData} value={motherName} />
+              </Col>
+              
+              </Row>
+            {/* <Row>
+            </Row> */}
+            
+            <Row>
+               <Col>
                 <label className="form-label">Marital Status</label> <br />
-                <select className="form-label-input" >
-                  <option>Select</option>
-                  <option>Single</option>
-                  <option>Married</option>
-                  <option>Divorced</option>
-                  <option>Widowed</option>
+                <select className="form-label-input" name = "maritalStatus" onChange={handlePersonalData} value={maritalStatus} >
+                  <option value = "">Select</option>
+                  <option value = "single">Single</option>
+                  <option value = "married">Married</option>
+                  <option value = "divorced">Divorced</option>
+                  <option value = "widowed">Widowed</option>
                 </select>
               </Col>
+              {maritalStatus === "married" ?(
               <Col>
                 <label className="form-label">Spouse Name</label><br />
                 <input className="form-label-input" type="text" name="spouseName" onChange={handlePersonalData} value={spouseName} />
-              </Col>
-            </Row>
-            <Row>
+              </Col> ) : null}
+              {maritalStatus === "married"?(
               <Col>
                 <label className="form-label">Spouse Aadhar Number</label><br />
                 <input className="form-label-input" type="text" name="spouseAadharNumber" onChange={handlePersonalData} value={spouseAadharNumber} />
-              </Col>
+              </Col> ) : null}
+              {maritalStatus === "married" ?(
               <Col>
                 <label className="form-label">Spouse Date of Birth</label><br />
                 <input className="form-label-input" type="text" name="dobSpouse" onChange={handlePersonalData} value={dobSpouse} />
-              </Col>
+              </Col> ) : null}
+              {/* {maritalStatus !== "single" && maritalStatus !== "" ?(
               <Col>
-                <label className="form-label">Child 1 Name</label><br />
-                <input className="form-label-input" ype="text" name="child1Name" />
-              </Col>
+                <label className="form-label">Number of Children</label><br />
+                <input className="form-label-input" type="text" name="numberOfChildren" onChange={handlePersonalData} value={numberOfChildren} />
+              </Col> ) : null } */}
+
+
+              
 
             </Row>
-            <Row>
+            {/* <Row>
               <Col>
                 <label className="form-label">Child 1 Date of Birth</label><br />
                 <input className="form-label-input" type="text" name="dobChild1" />
@@ -444,34 +482,21 @@ const PersonalDetails = () => {
                 <label className="form-label">Child 2 Date of Birth</label><br />
                 <input className="form-label-input" type="text" name="dobChild2" />
               </Col>
+            </Row> */}
+            <Row>
+              
+              
             </Row>
             <Row>
-              <Col>
-                <label className="form-label">Father Name</label><br />
-                <input className="form-label-input" type="text" name="fatherName" onChange={handlePersonalData} value={fatherName} />
-              </Col>
-              <Col>
-                <label className="form-label">Mother Name</label><br />
-                <input className="form-label-input" type="text" name="motherName" onChange={handlePersonalData} value={motherName} />
-              </Col>
-              <Col>
-                <label className="form-label">Emergency Contact Details</label><br />
-                <input className="form-label-input" type="text" name="emergencyContact" onChange={handlePersonalData} value={emergencyContact} />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <label className="form-label">Blood Group</label><br />
-                <input className="form-label-input" type="text" name="bloodGroup" onChange={handlePersonalData} value={bloodGroup} />
-              </Col>
-              <Col>
+              
+              {/* <Col>
                 <label className="form-label">Hobbies</label><br />
                 <input className="form-label-input" type="text" name="hobbies" onChange={handlePersonalData} value={hobbies} />
-              </Col>
-              <Col>
+              </Col> */}
+              {/* <Col>
                 <label className="form-label">Others</label><br />
                 <input className="form-label-input" type="text" name="others" onChange={handlePersonalData} value={others} />
-              </Col>
+              </Col> */}
             </Row>
 
 
@@ -483,7 +508,7 @@ const PersonalDetails = () => {
           <div className="form-container">
             <center> <h1 className="section-heading">Qualification</h1></center>
             <div>
-              <p className = "personal-dtls-sub-heading">Under Graduation Details</p>
+            <center><p className = "personal-dtls-sub-heading">Under Graduation Details</p></center>
             </div>
             <Row>
               <Col>
@@ -514,7 +539,7 @@ const PersonalDetails = () => {
               </Col>
             </Row>
             <div>
-              <p className = "personal-dtls-sub-heading">Post Graduation Details</p>
+              <center><p className = "personal-dtls-sub-heading">Post Graduation Details</p></center>
             </div>
             <Row>
               <Col>
@@ -545,7 +570,7 @@ const PersonalDetails = () => {
               </Col>
             </Row>
             <div>
-              <p className = "personal-dtls-sub-heading">Additional Education (if applicable)</p>
+            <center><p className = "personal-dtls-sub-heading">Additional Education (if applicable)</p></center>
             </div>
             <Row>
               <Col>
