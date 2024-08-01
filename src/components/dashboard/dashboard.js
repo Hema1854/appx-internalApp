@@ -73,6 +73,16 @@ const Dashboard = () => {
                       setIsPersonalInfoOpen(false); // Close submenu when other menu is selected
                     }
                   }}
+                  onMouseEnter={() => {
+                    if (isSidebarCollapsed && item.name === 'Personal Information') {
+                      setIsPersonalInfoOpen(true);
+                    }
+                  }}
+                  onMouseLeave={() => {
+                    if (isSidebarCollapsed && item.name === 'Personal Information') {
+                      setIsPersonalInfoOpen(false);
+                    }
+                  }}
                 >
                   <NavLink to={`${item.name.toLowerCase().replace(' ', '-')}`} end>
                     <img src={item.icon} alt={item.name} />
@@ -84,20 +94,20 @@ const Dashboard = () => {
                     )}
                   </NavLink>
                   {item.name === 'Personal Information' && isPersonalInfoOpen && (
-                    <ul className='dashboard-left-submenu'>
-                      {item.subMenu.map((subItem, subIndex) => (
-                        <li key={subIndex} onClick={() => handleNavigation('personal-information', subItem)}>
-                          {subItem}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-      </div>
+                     <ul className={`dashboard-left-submenu ${isSidebarCollapsed ? 'popup' : ''}`}>
+                     {item.subMenu.map((subItem, subIndex) => (
+                       <li key={subIndex} onClick={() => handleNavigation('personal-information', subItem)}>
+                         {subItem}
+                       </li>
+                     ))}
+                   </ul>
+                 )}
+               </li>
+             ))}
+           </ul>
+         </nav>
+       </div>
+     </div>
 
       <div className="content-container">
         <Routes>
