@@ -76,7 +76,6 @@
   padding: 5px 0px 8px 20px;
   margin: 0px 0px 0px 0px;
   font-weight: bold;
- 
   cursor: pointer;
   text-align: center;
   display:flex  ;
@@ -139,6 +138,13 @@
 .form-label-input {
   height: 30px;
   width: 190px;
+  outline: none;
+  border: 1px solid #888;
+  border-radius: 2px;
+}
+
+.form-label-input.error-border {
+  border: 1px solid red;
 }
 
 .section-heading {
@@ -155,10 +161,10 @@
   position: absolute;
   text-align: center;
   right: -11px; 
-  bottom: -10px; /* Adjust the distance from the text */
+  bottom: -10px;
   width: 115%;
-  height: 3px; /* Adjust the thickness */
-  background-color: #ad57f8; /* Color of the underline */
+  height: 3px;
+  background-color: #ad57f8;
 }
 .col{
   padding-left: 20px;

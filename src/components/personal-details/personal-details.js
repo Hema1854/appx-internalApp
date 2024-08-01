@@ -29,7 +29,7 @@ const PersonalDetails = () => {
   const [employeeDetailsData, setEmployeeDetailsData] = useState({
     employeeId: "",
     employeeName: "",
-    officialEmail: "",
+    officialEmail: loginInfo.userEmail,
     phoneNumber: "",
     alternativeContact: "",
     personalEmail: "",
@@ -66,6 +66,13 @@ const PersonalDetails = () => {
     pfNumber:""
   })
 
+  const [employeeDetailsErr, setEmployeeDetailsErr] = useState({
+    employeeIdErr: false,
+    employeeNameErr: false,
+    officialEmailErr: false,
+    phoneNumberErr: false,
+  })
+
   useEffect(() => {
     console.log("enteredddddddddd");
     const currentIndex = sections.indexOf(selectedMenu);
@@ -79,10 +86,6 @@ const PersonalDetails = () => {
   }, []);
 
   const getPersonalInformation = async () => {
-    // navigate('/dashboard'); 
-    // console.log("employeeMail", employeeMail)
-    // console.log("employeeName", employeeName)
-
     try {
       const params = {
         email: loginInfo.userEmail
@@ -98,19 +101,19 @@ const PersonalDetails = () => {
 
       const data = await response.json();
       if (response.ok) {
-        // navigate('/dashboard');
         console.log('dataaaA', data);
-        //   setPersonalInformation(data.signup_details);
-//navigate('/dashboard');
         console.log('dataaa', data.user_details);
-        setEmployeeDetailsData(prevState => ({
-          ...prevState,
-          employeeName: data?.user_details?.name !== "" ? data.user_details.name : "",
-          officialEmail: data?.user_details?.officialEmail !== "" ? data.user_details.officialEmail : "",
-          employeeId: data.user_details.employeeId !== "" ? data.user_details.employeeId : "",
-          phoneNumber: data.user_details.phone !== "" ? data.user_details.phone : "",
-          personalEmail: data.user_details.personalEmail !== "" ? data.user_details.personalEmail : "",
-        }));
+        if(data.user_details !== undefined){
+          setEmployeeDetailsData(prevState => ({
+            ...prevState,
+            employeeName: data?.user_details?.name !== "" ? data.user_details.name : "",
+            // officialEmail: data?.user_details?.officialEmail !== "" ? data.user_details.officialEmail : "",
+            employeeId: data.user_details.employeeId !== "" ? data.user_details.employeeId : "",
+            phoneNumber: data.user_details.phone !== "" ? data.user_details.phone : "",
+            personalEmail: data.user_details.personalEmail !== "" ? data.user_details.personalEmail : "",
+          }));
+        }
+        
       } else {
         console.log('Not getting data', data.message);
       }
@@ -150,10 +153,6 @@ const PersonalDetails = () => {
     }));
   }
   const onNextButtonClick = () => {
-
-    // console.log("employeeDetails", employeeDetailsData);
-    // console.log('personal Data', personalData);
-    // console.log('bankDeatilsData', bankDetailsData);
     if(subMenuInfo.subMenu === 'Employee Details') {
       dispatch(SubMenuInfoAction('Personal Details'))
     } else if(subMenuInfo.subMenu === 'Personal Details') {
@@ -162,10 +161,72 @@ const PersonalDetails = () => {
       dispatch(SubMenuInfoAction('Bank Details'))
     } 
   }
+  const onSaveButtonClick = async() => {
+    const { employeeId, employeeName, officialEmail, phoneNumber, alternativeContact, personalEmail, techHiredFor, joiningDate, designation } = employeeDetailsData
+    const { panNumber, aadharNumber, dobOfficial, dobOriginal, spouseName, spouseAadharNumber, dobSpouse, fatherName, motherName, emergencyContact, bloodGroup, hobbies, others } = personalData
+    // const {acNumber, ifscCode, nameAsPerBank, branchName, uan, pfNumber} = bankDetailsData;
+    try {
+      const params = {
+          "employeeId": employeeDetailsData.employeeId ,
+          "name": employeeDetailsData.employeeName,
+          "officialEmail": employeeDetailsData.officialEmail,
+          "phone": employeeDetailsData.phoneNumber,
+          "technologyHired": employeeDetailsData.techHiredFor,
+          "joiningDate": employeeDetailsData.joiningDate,
+          "personalEmail": employeeDetailsData.personalEmail,
+          "panNumber": personalData.panNumber,
+          "aadharNumber": personalData.aadharNumber,
+          "dobOfficial": personalData.dobOfficial,
+          "dobOriginal": personalData.dobOriginal,
+          "spouseName": personalData.spouseName,
+          "spouseAadharNumber": personalData.spouseAadharNumber,
+          "dobSpouse": personalData.dobSpouse,
+          "fatherName": personalData.fatherName,
+          "motherName": personalData.motherName,
+          "emergencyContact": personalData.emergencyContact,
+          "bloodGroup": personalData.bloodGroup,
+          "hobbies": personalData.hobbies,
+          "others": personalData.others,
+          "acNumber": bankDetailsData.acNumber,
+          "ifscCode": bankDetailsData.ifscCode,
+          "nameAsPerBank": bankDetailsData.nameAsPerBank,
+          "branchName": bankDetailsData.branchName,
+          "uan": bankDetailsData.uan,
+          "pfNumber": bankDetailsData.pfNumber
+      };
+      const response = await fetch('https://4ljgkngzqa.execute-api.us-east-1.amazonaws.com/dev/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+      });
+  
+      const data = await response.json();
+      if (response.ok) {
+        console.log('SuccessFully Submitted');
+      } else {
+        console.log('Not getting data', data.message);
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+    }
+    
+  }
   const onSubmitButtonClick = async () => {
     const { employeeId, employeeName, officialEmail, phoneNumber, alternativeContact, personalEmail, techHiredFor, joiningDate, designation } = employeeDetailsData
     const { panNumber, aadharNumber, dobOfficial, dobOriginal, spouseName, spouseAadharNumber, dobSpouse, fatherName, motherName, emergencyContact, bloodGroup, hobbies, others } = personalData
     const {acNumber, ifscCode, nameAsPerBank, branchName, uan, pfNumber} = bankDetailsData;
+    if(employeeId === "" || employeeName === "" || officialEmail === "" || phoneNumber === "") {
+      dispatch(SubMenuInfoAction('Employee Details'));
+      setEmployeeDetailsErr(prevState => ({
+        ...prevState,
+        employeeIdErr: employeeId === "" ? true : false,
+        employeeNameErr: employeeName === "" ? true : false,
+        officialEmailErr: officialEmail === "" ? true : false,
+        phoneNumberErr: phoneNumber === "" ? true : false
+      }));
+    }
     try {
       const params = {
           "employeeId": employeeDetailsData.employeeId,
@@ -195,7 +256,7 @@ const PersonalDetails = () => {
           "uan": bankDetailsData.uan,
           "pfNumber": bankDetailsData.pfNumber
       };
-      const response = await fetch('https://4ljgkngzqa.execute-api.us-east-1.amazonaws.com/dev/personaldetails', {
+      const response = await fetch('https://4ljgkngzqa.execute-api.us-east-1.amazonaws.com/dev/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -225,6 +286,7 @@ const PersonalDetails = () => {
     const { employeeId, employeeName, officialEmail, phoneNumber, alternativeContact, personalEmail, techHiredFor, joiningDate, designation } = employeeDetailsData
     const { panNumber, aadharNumber, dobOfficial, dobOriginal, spouseName, spouseAadharNumber, dobSpouse, fatherName, motherName, emergencyContact, bloodGroup, hobbies, others } = personalData
     const {acNumber, ifscCode, nameAsPerBank, branchName, uan, pfNumber} = bankDetailsData;
+    const {employeeIdErr, employeeNameErr, officialEmailErr, phoneNumberErr} = employeeDetailsErr;
     switch (subMenuInfo.subMenu) {
       case 'Employee Details':
         return (
@@ -234,41 +296,61 @@ const PersonalDetails = () => {
             <Row>
               <Col>
                 <label className="form-label"><span className="required">*</span>Employee ID </label><br />
-                <input className="form-label-input" type="text" name="employeeId" onChange={handleEmployeeDetails} value={employeeId} />
+                <input className={`form-label-input ${ employeeIdErr? 'error-border' : ''}`}
+                type="text" name="employeeId" onChange={handleEmployeeDetails} value={employeeId} />
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Employee Name</label><br />
-                <input className="form-label-input" type="text" name="employeeName" onChange={handleEmployeeDetails} value={employeeName} />
+                <input className={`form-label-input ${ employeeNameErr? 'error-border' : ''}`}
+                 type="text" name="employeeName" onChange={handleEmployeeDetails} value={employeeName} />
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Official Email</label><br />
-                <input className="form-label-input"  type="text" name="officialEmail" onChange={handleEmployeeDetails} value={officialEmail} />
+                <input className="form-label-input" disabled = {true} type="text" name="officialEmail" onChange={handleEmployeeDetails} value={loginInfo.userEmail} />
               </Col>
             </Row>
             <Row>
               <Col>
                 <label className="form-label"><span className="required">*</span>Phone</label> <br />
-                <PhoneInput 
-  country={'in'}
-  value={phoneNumber}
-  onChange={(phone) => {
-    console.log('Phone number changed:', phone); // This will log the phone number when it changes
-    setEmployeeDetailsData(prevState => ({
-      ...prevState,
-      phoneNumber: phone
-    }));
-  }}
-/>
+                <PhoneInput
+                  enableSearch = {true}
+                  country={'in'}
+                  countryCodeEditable={false}
+                  value={phoneNumber}
+                  inputStyle={{
+                    width: "192px",
+                    height: "30px",
+                    border: `1px solid ${phoneNumberErr ? 'red' : '#888'}`,
+                    borderRadius: "2px",
+                    boxShadow: 'none'
+                  }}
+                  onChange={(phone) => {
+                    console.log('Phone number changed:', phone); // This will log the phone number when it changes
+                    setEmployeeDetailsData(prevState => ({
+                      ...prevState,
+                      phoneNumber: phone
+                    }));
+                  }}
+                />
               </Col>
               <Col>
                 <label className="form-label">Alternative Contact Number</label> <br />
                 <PhoneInput 
                   country={'in'}
+                  enableSearch = {true}
                   value={alternativeContact}
+                  countryCodeEditable={false}
                   onChange={(phone) => setEmployeeDetailsData(prevState => ({
                     ...prevState,
                     alternativeContact: phone
                   }))}
+                  inputStyle={{
+                    width: "192px",
+                    height: "30px",
+                    border: "1px solid #888",
+                    borderRadius: "2px",
+                    boxShadow: 'none'
+                  }}
                 />
               </Col>
               <Col>
@@ -607,7 +689,7 @@ const PersonalDetails = () => {
             {renderForm()}
           </div>
           <div className="button-container">
-          <Button className='save-button' onClick={onNextButtonClick}>Save</Button> 
+          <Button className='save-button' onClick={onSaveButtonClick}>Save</Button> 
            {subMenuInfo.subMenu !== 'Bank Details' ? 
            
            <Button className='next-button' onClick={onNextButtonClick}>Next</Button> : null }
