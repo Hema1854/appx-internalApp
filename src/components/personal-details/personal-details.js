@@ -26,8 +26,6 @@ const PersonalDetails = () => {
   const [selectedMenu, setSelectedMenu] = useState(subMenuInfo.subMenu);
   const [progress, setProgress] = useState(0);
   const [personalInformation, setPersonalInformation] = useState([])
-  const [showPgFields, setShowPgFields] = useState(false)
-  const [showPhdFields, setShowPhdFields] = useState(false)
   const [employeeDetailsData, setEmployeeDetailsData] = useState({
     employeeId: "",
     employeeName: "",
@@ -132,22 +130,26 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
             personalEmail: data.user_details.personalEmail !== "" ? data.user_details.personalEmail : "",
             techHiredFor: data.user_details.technologyHired !== "" ? data.user_details.technologyHired : "",
             joiningDate: data.user_details.joiningDate !== "" ? data.user_details.joiningDate : "",
+            designation: data.user_details.designationAppx !== "" ? data.user_details.designationAppx : "",
           }));
           setPersonalData(prevState => ({
             ...prevState,
             panNumber:data.user_details?.panNumber!== "" ? data.user_details.panNumber:"",
             aadharNumber:data.user_details?.aadharNumber!== "" ? data.user_details.aadharNumber:"",
-            fatherName:data.user_details?.fatherName!== "" ? data.user_details.fatherName:"",
-            motherName:data.user_details?.motherName!== "" ? data.user_details.motherName:"",
+            fatherName:data.user_details?.fathersName!== "" ? data.user_details.fathersName:"",
+            motherName:data.user_details?.mothersName!== "" ? data.user_details.mothersName:"",
             emergencyContact:data.user_details?.emergencyContact!== ""?data.user_details.emergencyContact:"",  
+            maritalStatus: data.user_details?.maritalStatus !== "" ? data.user_details.maritalStatus : "",
+            dobOfficial: data.user_details?.dobOfficial !== "" ? data.user_details.dobOfficial : "",
+            dobOriginal:data.user_details?.dobOriginal !== "" ? data.user_details.dobOriginal : "",
         }));  
-        setbankDetailsDataErr(
+        setbankDetailsData(
           prevState => ({
             ...prevState,
-            acNumber:data.user_details?.acNumber!== "" ? data.user_details.acNumber:"",
+            acNumber:data.user_details?.accountNumber!== "" ? data.user_details.accountNumber:"",
             ifscCode:data.user_details?.ifscCode!== "" ? data.user_details.ifscCode:"",
-            nameAsPerBank:data.user_details?.nameAsPerBank!==""?data.user_details.nameAsPerBank:"",
-            branchName:data.user_details?.branchName!== ""?data.user_details.branchName:"",
+            nameAsPerBank:data.user_details?.accountHolderName!==""?data.user_details.accountHolderName:"",
+            branchName:data.user_details?.bankName!== ""?data.user_details.bankName:"",
          }));
       } else {
         console.log('Not getting data', data.message);
@@ -179,6 +181,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
       [name]: value
     }));
   };
+  
 
   const handleBankDetailsData = (e) => {
     const { name, value } = e.target;
@@ -207,28 +210,31 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
           "name": employeeDetailsData.employeeName,
           "officialEmail": employeeDetailsData.officialEmail,
           "phone": employeeDetailsData.phoneNumber,
+          // "alternativeContact": employeeDetailsData.alternativeContact,
+          "designationAppx":employeeDetailsData.designation,
           "technologyHired": employeeDetailsData.techHiredFor,
           "joiningDate": employeeDetailsData.joiningDate,
           "personalEmail": employeeDetailsData.personalEmail,
-          "panNumber": personalData.panNumber,
+          // "panNumber": personalData.panNumber,
+           "panNumber": "DUBPG4346B",
           "aadharNumber": personalData.aadharNumber,
           "dobOfficial": personalData.dobOfficial,
           "dobOriginal": personalData.dobOriginal,
+          "maritalStatus":personalData.maritalStatus,
           "spouseName": personalData.spouseName,
           "spouseAadharNumber": personalData.spouseAadharNumber,
           "dobSpouse": personalData.dobSpouse,
-          "fatherName": personalData.fatherName,
-          "motherName": personalData.motherName,
+          "fathersName": personalData.fatherName,
+          "mothersName": personalData.motherName,
           "emergencyContact": personalData.emergencyContact,
-          "bloodGroup": personalData.bloodGroup,
-          "hobbies": personalData.hobbies,
-          "others": personalData.others,
-          "acNumber": bankDetailsData.acNumber,
+          // "bloodGroup": personalData.bloodGroup,
+          // "hobbies": personalData.hobbies ----------- This field needs to be add in UI ,
+          "accountNumber": bankDetailsData.acNumber,
           "ifscCode": bankDetailsData.ifscCode,
-          "nameAsPerBank": bankDetailsData.nameAsPerBank,
-          "branchName": bankDetailsData.branchName,
-          "uan": bankDetailsData.uan,
-          "pfNumber": bankDetailsData.pfNumber
+          "accountHolderName": bankDetailsData.nameAsPerBank,
+          "bankName": bankDetailsData.branchName,
+          // "uan": bankDetailsData.uan,
+          // "pfNumber": bankDetailsData.pfNumber
       };
       const response = await fetch('https://4ljgkngzqa.execute-api.us-east-1.amazonaws.com/dev/save', {
         method: 'POST',
@@ -240,7 +246,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
   
       const data = await response.json();
       if (response.ok) {
-        console.log('SuccessFully Submitted');
+        console.log('SuccessFully Submitted',data);
       } else {
         console.log('Not getting data', data.message);
       }
@@ -285,6 +291,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
         branchNameErr:branchName === ""?true:false,
       }));
     }
+    
     try {
       const params = {
           "employeeId": employeeDetailsData.employeeId,
@@ -310,7 +317,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
           "acNumber": bankDetailsData.acNumber,
           "ifscCode": bankDetailsData.ifscCode,
           "nameAsPerBank": bankDetailsData.nameAsPerBank,
-          "branchName": bankDetailsData.branchName,
+          "bankName": bankDetailsData.branchName,
           "uan": bankDetailsData.uan,
           "pfNumber": bankDetailsData.pfNumber
       };
@@ -324,7 +331,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
   
       const data = await response.json();
       if (response.ok) {
-        console.log('SuccessFully Submitted');
+        console.log('SuccessFully Submitted',data);
       } else {
         console.log('Not getting data', data.message);
       }
@@ -593,11 +600,6 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
                 <input className="form-label-input" type="text" name="personalEmail" />
               </Col>
             </Row>
-            <div className='d-flex flex-row justify-content-end'>
-              <Button onClick = {() => setShowPgFields(true)}>Add PG Details</Button>
-            </div>
-            {showPgFields ? (
-            <>
             <div>
               <center><p className = "personal-dtls-sub-heading">Post Graduation Details</p></center>
             </div>
@@ -629,14 +631,6 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
                 <input className="form-label-input" type="text" name="currentAddress" />
               </Col>
             </Row>
-            <div className='d-flex flex-row justify-content-end'>
-              <Button onClick = {() => setShowPhdFields(true)}>Add PhD Details</Button>
-            </div>
-            </>) : null}
-            {showPhdFields ? (
-              
-           
-            <>
             <div>
             <center><p className = "personal-dtls-sub-heading">Additional Education (if applicable)</p></center>
             </div>
@@ -668,8 +662,6 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
                 <input className="form-label-input" type="text" name="currentAddress" />
               </Col>
             </Row>
-            </> 
-            ) : null}
           </div>
           <div className="exp-confirmation">
               <input type='checkbox' checked = {qualificationData.havePriorExp} onChange={handleCheckboxChange}/>
