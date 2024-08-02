@@ -73,8 +73,23 @@ const PersonalDetails = () => {
     employeeNameErr: false,
     officialEmailErr: false,
     phoneNumberErr: false,
-  })
+    techHiredForErr: false,
+    joiningDateErr:false
 
+  })
+const[personalDataErr, setPersonalDataErr]=useState({
+  panNumberErr:false,
+  aadharNumberErr:false,
+  fatherNameErr:false,
+  motherNameErr:false,
+  emergencyContactErr:false
+})
+const[BankDetailsErr,setbankDetailsDataErr]=useState({
+  acNumberErr:false,
+  ifscCodeErr:false,
+  nameAsPerBankErr:false,
+  branchNameErr:false
+})
   useEffect(() => {
     console.log("enteredddddddddd");
     const currentIndex = sections.indexOf(selectedMenu);
@@ -116,12 +131,26 @@ const PersonalDetails = () => {
             techHiredFor: data.user_details.technologyHired !== "" ? data.user_details.technologyHired : "",
             joiningDate: data.user_details.joiningDate !== "" ? data.user_details.joiningDate : "",
           }));
-        }
-        
+          setPersonalData(prevState => ({
+            ...prevState,
+            panNumber:data.user_details?.panNumber!== "" ? data.user_details.panNumber:"",
+            aadharNumber:data.user_details?.aadharNumber!== "" ? data.user_details.aadharNumber:"",
+            fatherName:data.user_details?.fatherName!== "" ? data.user_details.fatherName:"",
+            motherName:data.user_details?.motherName!== "" ? data.user_details.motherName:"",
+            emergencyContact:data.user_details?.emergencyContact!== ""?data.user_details.emergencyContact:"",  
+        }));  
+        setbankDetailsDataErr(
+          prevState => ({
+            ...prevState,
+            acNumber:data.user_details?.acNumber!== "" ? data.user_details.acNumber:"",
+            ifscCode:data.user_details?.ifscCode!== "" ? data.user_details.ifscCode:"",
+            nameAsPerBank:data.user_details?.nameAsPerBank!==""?data.user_details.nameAsPerBank:"",
+            branchName:data.user_details?.branchName!== ""?data.user_details.branchName:"",
+         }));
       } else {
         console.log('Not getting data', data.message);
       }
-    } catch (error) {
+    }} catch (error) {
       console.error('Error during login:', error);
     }
   }
@@ -222,14 +251,36 @@ const PersonalDetails = () => {
     const { employeeId, employeeName, officialEmail, phoneNumber, alternativeContact, personalEmail, techHiredFor, joiningDate, designation } = employeeDetailsData
     const { panNumber, aadharNumber, dobOfficial, dobOriginal, spouseName, spouseAadharNumber, dobSpouse, fatherName, motherName, emergencyContact, bloodGroup, hobbies, others } = personalData
     const {acNumber, ifscCode, nameAsPerBank, branchName, uan, pfNumber} = bankDetailsData;
-    if(employeeId === "" || employeeName === "" || officialEmail === "" || phoneNumber === "") {
+    if(employeeId === "" || employeeName === ""  || phoneNumber === "") {
       dispatch(SubMenuInfoAction('Employee Details'));
       setEmployeeDetailsErr(prevState => ({
         ...prevState,
         employeeIdErr: employeeId === "" ? true : false,
         employeeNameErr: employeeName === "" ? true : false,
-        officialEmailErr: officialEmail === "" ? true : false,
-        phoneNumberErr: phoneNumber === "" ? true : false
+        // officialEmailErr: officialEmail === "" ? true : false,
+        phoneNumberErr: phoneNumber === "" ? true : false,
+        techHiredForErr: techHiredFor === "" ? true : false,
+        joiningDateErr: joiningDate === "" ? true : false,
+      }));
+    } else if(panNumber === "" || aadharNumber === "" || fatherName === "" || motherName === "" || emergencyContact === "") {
+      dispatch(SubMenuInfoAction('Personal Details'));
+      setPersonalDataErr(prevState => ({
+        ...prevState,
+        panNumberErr: panNumber === "" ? true : false,
+        aadharNumberErr: aadharNumber === "" ? true : false,
+        fatherNameErr: fatherName === "" ? true : false,
+        motherNameErr: motherName === "" ? true : false,
+        emergencyContactErr: emergencyContact === "" ? true : false,
+      }));
+    }
+    else if(acNumber === "" || ifscCode === "" || nameAsPerBank === "" ||  branchName ===""){
+      dispatch(SubMenuInfoAction('Bank Details'));
+      setbankDetailsDataErr(prevState => ({
+        ...prevState,
+        acNumberErr: acNumber === "" ? true : false,
+        ifscCodeErr: ifscCode === "" ? true : false,
+        nameAsPerBankErr: nameAsPerBank === "" ? true : false,
+        branchNameErr:branchName === ""?true:false,
       }));
     }
     try {
@@ -291,7 +342,9 @@ const PersonalDetails = () => {
     const { employeeId, employeeName, officialEmail,numberOfChildren, phoneNumber, alternativeContact, personalEmail, techHiredFor, joiningDate, designation } = employeeDetailsData
     const { panNumber, aadharNumber, dobOfficial,maritalStatus, dobOriginal, spouseName, spouseAadharNumber, dobSpouse, fatherName, motherName, emergencyContact, bloodGroup, hobbies, others } = personalData
     const {acNumber, ifscCode, nameAsPerBank, branchName, uan, pfNumber} = bankDetailsData;
-    const {employeeIdErr, employeeNameErr, officialEmailErr, phoneNumberErr} = employeeDetailsErr;
+    const {employeeIdErr, employeeNameErr, officialEmailErr, phoneNumberErr, techHiredForErr,joiningDateErr} = employeeDetailsErr;
+    const {panNumberErr, aadharNumberErr,fatherNameErr, motherNameErr, emergencyContactErr}=personalDataErr;
+    const {acNumberErr, ifscCodeErr, nameAsPerBankErr, branchNameErr}=BankDetailsErr;
     switch (subMenuInfo.subMenu) {
       case 'Employee Details':
         return (
@@ -311,10 +364,10 @@ const PersonalDetails = () => {
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Official Email</label><br />
-                <input className="form-label-input" disabled = {true} type="text" name="officialEmail" onChange={handleEmployeeDetails} value={loginInfo.userEmail} />
+                <input className={`form-label-input ${officialEmailErr? 'error-border' : ''}`} disabled = {true} type="text" name="officialEmail" onChange={handleEmployeeDetails} value={loginInfo.userEmail} />
               </Col>
               <Col>
-                <label className="form-label">Personal Email</label> <br />
+                <label className="form-label"><span className="required">*</span>Personal Email</label> <br />
                 <input className="form-label-input" type="text" name="personalEmail" onChange={handleEmployeeDetails} value={personalEmail} />
               </Col>
             </Row>
@@ -363,12 +416,12 @@ const PersonalDetails = () => {
                 />
               </Col>
               <Col>
-                <label className="form-label">Technology Hired For</label> <br />
-                <input className="form-label-input" type="text" name="techHiredFor" onChange={handleEmployeeDetails} value={techHiredFor} />
+                <label className="form-label"><span className="required">*</span>Technology Hired For</label> <br />
+                <input className={`form-label-input ${techHiredForErr? 'error-border' : ''}`} type="text" name="techHiredFor" onChange={handleEmployeeDetails} value={techHiredFor} />
               </Col>
               <Col>
-                <label className="form-label">Joining Date</label> <br />
-                <input className="form-label-input" type="date" name="joiningDate" onChange={handleEmployeeDetails} value={joiningDate} />
+                <label className="form-label"><span className="required">*</span>Joining Date</label> <br />
+                <input className={`form-label-input ${joiningDateErr? 'error-border' : ''}`} type="date" name="joiningDate" onChange={handleEmployeeDetails} value={joiningDate} />
               </Col>
               
             </Row>
@@ -393,15 +446,15 @@ const PersonalDetails = () => {
             <Row xs={1} md={2} lg={4}>
               <Col className="section-heading-col">
                 <label className="form-label"><span className="required">*</span>PAN Number</label><br />
-                <input className="form-label-input" type="text" name="panNumber" onChange={handlePersonalData} value={panNumber} />
+                <input className={`form-label-input ${panNumberErr ? 'error-border' : ''}`}type="text" name="panNumber" onChange={handlePersonalData} value={panNumber} />
               </Col>
               <Col className="section-heading-col">
                 <label className="form-label"><span className="required">*</span>Aadhar Number</label><br />
-                <input className="form-label-input" type="text" name="aadharNumber" onChange={handlePersonalData} value={aadharNumber} />
+                <input className={`form-label-input ${aadharNumberErr? 'error-border' : ''}`} type="text" name="aadharNumber" onChange={handlePersonalData} value={aadharNumber} />
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Emergency Contact Details</label><br />
-                <input className="form-label-input" type="text" name="emergencyContact" onChange={handlePersonalData} value={emergencyContact} />
+                <input className={`form-label-input ${emergencyContactErr? 'error-border' : ''}`} type="text" name="emergencyContact" onChange={handlePersonalData} value={emergencyContact} />
               </Col>
               <Col>
                 <label className="form-label">Blood Group</label><br />
@@ -422,11 +475,11 @@ const PersonalDetails = () => {
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Father Name</label><br />
-                <input className="form-label-input" type="text" name="fatherName" onChange={handlePersonalData} value={fatherName} />
+                <input className={`form-label-input ${fatherNameErr? 'error-border' : ''}`} type="text" name="fatherName" onChange={handlePersonalData} value={fatherName} />
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Mother Name</label><br />
-                <input className="form-label-input" type="text" name="motherName" onChange={handlePersonalData} value={motherName} />
+                <input className={`form-label-input ${motherNameErr? 'error-border' : ''}`} type="text" name="motherName" onChange={handlePersonalData} value={motherName} />
               </Col>
               
               </Row>
@@ -647,21 +700,21 @@ const PersonalDetails = () => {
             <Row>
               <Col>
                 <label className="form-label"><span className="required">*</span>Account Number</label><br />
-                <input className="form-label-input" type="text" name="acNumber" onChange={handleBankDetailsData} value = {acNumber} />
+                <input className={`form-label-input ${acNumberErr? 'error-border' : ''}`} type="text" name="acNumber" onChange={handleBankDetailsData} value = {acNumber} />
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>IFSC Code</label> <br />
-                <input className="form-label-input" type="text" name="ifscCode" onChange={handleBankDetailsData} value={ifscCode} />
+                <input className={`form-label-input ${ifscCodeErr? 'error-border' : ''}`}  type="text" name="ifscCode" onChange={handleBankDetailsData} value={ifscCode} />
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Name as per A/C</label><br />
-                <input className="form-label-input" type="text" name="nameAsPerBank" onChange={handleBankDetailsData}  value={nameAsPerBank}/>
+                <input className={`form-label-input ${nameAsPerBankErr? 'error-border' : ''}`} type="text" name="nameAsPerBank" onChange={handleBankDetailsData}  value={nameAsPerBank}/>
               </Col>
             </Row>
             <Row>
               <Col>
                 <label className="form-label"><span className="required">*</span>Branch</label> <br />
-                <input className="form-label-input" type="text" name="branchName" onChange={handleBankDetailsData} value={branchName} />
+                <input className={`form-label-input ${branchNameErr? 'error-border' : ''}`}    type="text" name="branchName" onChange={handleBankDetailsData} value={branchName} />
               </Col>
               <Col>
                 <label className="form-label">UAN</label> <br />
@@ -680,7 +733,6 @@ const PersonalDetails = () => {
         return null;
     }
   };
-
   return (
     <div className="personal-details-container">
       <div className="personal-details-header-section" style={{ backgroundImage: `url(${headerBg})` }}>
