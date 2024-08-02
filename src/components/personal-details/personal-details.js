@@ -26,6 +26,8 @@ const PersonalDetails = () => {
   const [selectedMenu, setSelectedMenu] = useState(subMenuInfo.subMenu);
   const [progress, setProgress] = useState(0);
   const [personalInformation, setPersonalInformation] = useState([])
+  const [showPgFields, setShowPgFields] = useState(false)
+  const [showPhdFields, setShowPhdFields] = useState(false)
   const [employeeDetailsData, setEmployeeDetailsData] = useState({
     employeeId: "",
     employeeName: "",
@@ -538,6 +540,11 @@ const PersonalDetails = () => {
                 <input className="form-label-input" type="text" name="personalEmail" />
               </Col>
             </Row>
+            <div className='d-flex flex-row justify-content-end'>
+              <Button onClick = {() => setShowPgFields(true)}>Add PG Details</Button>
+            </div>
+            {showPgFields ? (
+            <>
             <div>
               <center><p className = "personal-dtls-sub-heading">Post Graduation Details</p></center>
             </div>
@@ -569,6 +576,14 @@ const PersonalDetails = () => {
                 <input className="form-label-input" type="text" name="currentAddress" />
               </Col>
             </Row>
+            <div className='d-flex flex-row justify-content-end'>
+              <Button onClick = {() => setShowPhdFields(true)}>Add PhD Details</Button>
+            </div>
+            </>) : null}
+            {showPhdFields ? (
+              
+           
+            <>
             <div>
             <center><p className = "personal-dtls-sub-heading">Additional Education (if applicable)</p></center>
             </div>
@@ -600,6 +615,8 @@ const PersonalDetails = () => {
                 <input className="form-label-input" type="text" name="currentAddress" />
               </Col>
             </Row>
+            </> 
+            ) : null}
           </div>
           <div className="exp-confirmation">
               <input type='checkbox' checked = {qualificationData.havePriorExp} onChange={handleCheckboxChange}/>
