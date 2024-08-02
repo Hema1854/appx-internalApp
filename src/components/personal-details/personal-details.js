@@ -467,12 +467,12 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
             </Row>
             <Row xs={1} md={2} lg={4}>
             <Col className="section-heading-col">
-                <label className="form-label">Official Date of Birth</label><br />
+                <label className="form-label"><span className="required">*</span>Official Date of Birth</label><br />
                 <input className="form-label-input" type="date" name="dobOfficial" onChange={handlePersonalData} value={dobOfficial} />
               </Col>
             
               <Col>
-                <label className="form-label">Original Date of Birth</label><br />
+                <label className="form-label"><span className="required">*</span>Original Date of Birth</label><br />
                 <input className="form-label-input" type="date" name="dobOriginal" onChange={handlePersonalData} value={dobOriginal} />
               </Col>
               <Col>
