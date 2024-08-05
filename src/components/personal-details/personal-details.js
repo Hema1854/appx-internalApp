@@ -74,8 +74,8 @@ const PersonalDetails = () => {
     officialEmailErr: false,
     phoneNumberErr: false,
     techHiredForErr: false,
+    alternativeContact:false,
     joiningDateErr:false
-
   })
 const[personalDataErr, setPersonalDataErr]=useState({
   panNumberErr:false,
@@ -127,6 +127,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
             // officialEmail: data?.user_details?.officialEmail !== "" ? data.user_details.officialEmail : "",
             employeeId: data.user_details.employeeId !== "" ? data.user_details.employeeId : "",
             phoneNumber: data.user_details.phone !== "" ? data.user_details.phone : "",
+            alternativeContact:data.user_details.alternativeContact!==""?data.user_details.alternativeContact:"",
             personalEmail: data.user_details.personalEmail !== "" ? data.user_details.personalEmail : "",
             techHiredFor: data.user_details.technologyHired !== "" ? data.user_details.technologyHired : "",
             joiningDate: data.user_details.joiningDate !== "" ? data.user_details.joiningDate : "",
@@ -138,6 +139,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
             aadharNumber:data.user_details?.aadharNumber!== "" ? data.user_details.aadharNumber:"",
             fatherName:data.user_details?.fathersName!== "" ? data.user_details.fathersName:"",
             motherName:data.user_details?.mothersName!== "" ? data.user_details.mothersName:"",
+            bloodGroup:data.user_details?.bloodGroup!== ""?  data.user_details.bloodGroup:"",
             emergencyContact:data.user_details?.emergencyContact!== ""?data.user_details.emergencyContact:"",  
             maritalStatus: data.user_details?.maritalStatus !== "" ? data.user_details.maritalStatus : "",
             dobOfficial: data.user_details?.dobOfficial !== "" ? data.user_details.dobOfficial : "",
@@ -150,6 +152,8 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
             ifscCode:data.user_details?.ifscCode!== "" ? data.user_details.ifscCode:"",
             nameAsPerBank:data.user_details?.accountHolderName!==""?data.user_details.accountHolderName:"",
             branchName:data.user_details?.bankName!== ""?data.user_details.bankName:"",
+            pfNumber:data.user_details?.bankPf!==""?data.user_details.bankPf:"",
+            uan:data.user_details?.bankUan!==""?data.user_details.bankUan:""
          }));
       } else {
         console.log('Not getting data', data.message);
@@ -210,13 +214,13 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
           "name": employeeDetailsData.employeeName,
           "officialEmail": employeeDetailsData.officialEmail,
           "phone": employeeDetailsData.phoneNumber,
-          // "alternativeContact": employeeDetailsData.alternativeContact,
+          "alternativeContact": employeeDetailsData.alternativeContact,
           "designationAppx":employeeDetailsData.designation,
           "technologyHired": employeeDetailsData.techHiredFor,
           "joiningDate": employeeDetailsData.joiningDate,
           "personalEmail": employeeDetailsData.personalEmail,
-          // "panNumber": personalData.panNumber,
-           "panNumber": "DUBPG4346B",
+          "panNumber": personalData.panNumber,
+          //  "panNumber": "DUBPG4346B",
           "aadharNumber": personalData.aadharNumber,
           "dobOfficial": personalData.dobOfficial,
           "dobOriginal": personalData.dobOriginal,
@@ -227,14 +231,14 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
           "fathersName": personalData.fatherName,
           "mothersName": personalData.motherName,
           "emergencyContact": personalData.emergencyContact,
-          // "bloodGroup": personalData.bloodGroup,
+          "bloodGroup": personalData.bloodGroup,
           // "hobbies": personalData.hobbies ----------- This field needs to be add in UI ,
           "accountNumber": bankDetailsData.acNumber,
           "ifscCode": bankDetailsData.ifscCode,
           "accountHolderName": bankDetailsData.nameAsPerBank,
           "bankName": bankDetailsData.branchName,
-          // "uan": bankDetailsData.uan,
-          // "pfNumber": bankDetailsData.pfNumber
+          "bankUan": bankDetailsData.uan,
+          "bankPf": bankDetailsData.pfNumber
       };
       const response = await fetch('https://4ljgkngzqa.execute-api.us-east-1.amazonaws.com/dev/save', {
         method: 'POST',
@@ -298,6 +302,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
           "name": employeeDetailsData.employeeName,
           "officialEmail": employeeDetailsData.officialEmail,
           "phone": employeeDetailsData.phoneNumber,
+          "alternativeContact": employeeDetailsData.alternativeContact,
           "technologyHired": employeeDetailsData.techHiredFor,
           "joiningDate": employeeDetailsData.joiningDate,
           "personalEmail": employeeDetailsData.personalEmail,
@@ -318,8 +323,8 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
           "ifscCode": bankDetailsData.ifscCode,
           "nameAsPerBank": bankDetailsData.nameAsPerBank,
           "bankName": bankDetailsData.branchName,
-          "uan": bankDetailsData.uan,
-          "pfNumber": bankDetailsData.pfNumber
+          "bankUan": bankDetailsData.uan,
+          "bankPf": bankDetailsData.pfNumber
       };
       const response = await fetch('https://4ljgkngzqa.execute-api.us-east-1.amazonaws.com/dev/submit', {
         method: 'POST',
