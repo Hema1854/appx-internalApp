@@ -11,8 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SubMenuInfoAction } from '../../Redux/Action/SubMenuInfoAction';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-
 import 'flag-icon-css/css/flag-icons.min.css';
+import AlertMessage from '../AlertMessage/alert-message';
 
 const sections = ['Employee Details', 'Personal Details', 'Qualification', 'Bank Details'];
 
@@ -26,6 +26,7 @@ const PersonalDetails = () => {
   const [selectedMenu, setSelectedMenu] = useState(subMenuInfo.subMenu);
   const [progress, setProgress] = useState(0);
   const [personalInformation, setPersonalInformation] = useState([])
+  const [disableFields, setDisableFields] = useState(false)
   const [employeeDetailsData, setEmployeeDetailsData] = useState({
     employeeId: "",
     employeeName: "",
@@ -54,6 +55,39 @@ const PersonalDetails = () => {
     others: "",
     numberOfChildren: 3,
   })
+  const [alertObj, updateAlertMessage] = useState({
+    isSuccess: false,
+    message: "",
+    isWarning: false,
+    title: "",
+  });
+
+  const showAlertMessage = (title, msg) => {
+    const msgObj = { ...alertObj };
+    msgObj.title = title;
+    msgObj.message = msg;
+    switch (title) {
+      case "Failure":
+        msgObj.isFailure = true;
+        break;
+      case "Warning":
+        msgObj.isWarning = true;
+        break;
+      case "Success":
+        msgObj.isSuccess = true;
+        break;
+    }
+    updateAlertMessage(msgObj);
+    setTimeout(() => {
+      updateAlertMessage({
+        isSuccess: false,
+        message: "",
+        isWarning: false,
+        isFailure: false,
+        title: "",
+      });
+    }, 3000);
+  };
 
   const [qualificationData, setQualificationData] = useState({
     havePriorExp: false,
@@ -121,6 +155,14 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
         console.log('dataaaA', data);
         console.log('dataaa', data.user_details);
         if(data.user_details !== undefined){
+          if(data.user_details.is_temporary == 1){
+            console.log('1')
+            setDisableFields(false)
+          }
+          if(data.user_details.is_temporary == 0){
+            console.log('11')
+            setDisableFields(true)
+          }
           setEmployeeDetailsData(prevState => ({
             ...prevState,
             employeeName: data?.user_details?.name !== "" ? data.user_details.name : "",
@@ -220,7 +262,6 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
           "joiningDate": employeeDetailsData.joiningDate,
           "personalEmail": employeeDetailsData.personalEmail,
           "panNumber": personalData.panNumber,
-          //  "panNumber": "DUBPG4346B",
           "aadharNumber": personalData.aadharNumber,
           "dobOfficial": personalData.dobOfficial,
           "dobOriginal": personalData.dobOriginal,
@@ -250,9 +291,14 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
   
       const data = await response.json();
       if (response.ok) {
-        console.log('SuccessFully Submitted',data);
+        console.log('Data Saved Temporarily',data);
+        showAlertMessage(
+          "Success",
+          'Data Saved Temporarily'
+        );
       } else {
         console.log('Not getting data', data.message);
+        // showAlertMessage("Failure", response?.errorMessage);
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -337,6 +383,11 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
       const data = await response.json();
       if (response.ok) {
         console.log('SuccessFully Submitted',data);
+        showAlertMessage(
+          "Success",
+          'Data Submitted SuccessFully'
+        );
+        setDisableFields(true)
       } else {
         console.log('Not getting data', data.message);
       }
@@ -369,12 +420,12 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
               <Col>
                 <label className="form-label"><span className="required">*</span>Employee ID </label><br />
                 <input className={`form-label-input ${ employeeIdErr? 'error-border' : ''}`}
-                type="text" name="employeeId" onChange={handleEmployeeDetails} value={employeeId} />
+                type="text" name="employeeId" disabled = {disableFields} onChange={handleEmployeeDetails} value={employeeId} />
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Employee Name</label><br />
                 <input className={`form-label-input ${ employeeNameErr? 'error-border' : ''}`}
-                 type="text" name="employeeName" onChange={handleEmployeeDetails} value={employeeName} />
+                 type="text" name="employeeName" disabled = {disableFields} onChange={handleEmployeeDetails} value={employeeName} />
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Official Email</label><br />
@@ -382,7 +433,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Personal Email</label> <br />
-                <input className="form-label-input" type="text" name="personalEmail" onChange={handleEmployeeDetails} value={personalEmail} />
+                <input className="form-label-input" type="text" name="personalEmail" disabled = {disableFields} onChange={handleEmployeeDetails} value={personalEmail} />
               </Col>
             </Row>
             <Row xs={1} md={2} lg={4}>
@@ -391,6 +442,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
                 <PhoneInput
                   enableSearch = {true}
                   country={'in'}
+                  disabled = {disableFields}
                   countryCodeEditable={false}
                   value={phoneNumber}
                   inputStyle={{
@@ -413,6 +465,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
                 <label className="form-label">Alternative Contact Number</label> <br />
                 <PhoneInput 
                   country={'in'}
+                  disabled = {disableFields}
                   enableSearch = {true}
                   value={alternativeContact}
                   countryCodeEditable={false}
@@ -431,11 +484,11 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Technology Hired For</label> <br />
-                <input className={`form-label-input ${techHiredForErr? 'error-border' : ''}`} type="text" name="techHiredFor" onChange={handleEmployeeDetails} value={techHiredFor} />
+                <input disabled = {disableFields} className={`form-label-input ${techHiredForErr? 'error-border' : ''}`} type="text" name="techHiredFor" onChange={handleEmployeeDetails} value={techHiredFor} />
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Joining Date</label> <br />
-                <input className={`form-label-input ${joiningDateErr? 'error-border' : ''}`} type="date" name="joiningDate" onChange={handleEmployeeDetails} value={joiningDate} />
+                <input disabled = {disableFields} className={`form-label-input ${joiningDateErr? 'error-border' : ''}`} type="date" name="joiningDate" onChange={handleEmployeeDetails} value={joiningDate} />
               </Col>
               
             </Row>
@@ -443,7 +496,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
              
               <Col>
                 <label className="form-label">Designation</label> <br />
-                <input className="form-label-input" type="text" name="designation" onChange={handleEmployeeDetails} value={designation} />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="designation" onChange={handleEmployeeDetails} value={designation} />
               </Col>
             </Row>
 
@@ -460,19 +513,19 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
             <Row xs={1} md={2} lg={4}>
               <Col className="section-heading-col">
                 <label className="form-label"><span className="required">*</span>PAN Number</label><br />
-                <input className={`form-label-input ${panNumberErr ? 'error-border' : ''}`}type="text" name="panNumber" onChange={handlePersonalData} value={panNumber} />
+                <input disabled = {disableFields} className={`form-label-input ${panNumberErr ? 'error-border' : ''}`}type="text" name="panNumber" onChange={handlePersonalData} value={panNumber} />
               </Col>
               <Col className="section-heading-col">
                 <label className="form-label"><span className="required">*</span>Aadhar Number</label><br />
-                <input className={`form-label-input ${aadharNumberErr? 'error-border' : ''}`} type="text" name="aadharNumber" onChange={handlePersonalData} value={aadharNumber} />
+                <input disabled = {disableFields} className={`form-label-input ${aadharNumberErr? 'error-border' : ''}`} type="text" name="aadharNumber" onChange={handlePersonalData} value={aadharNumber} />
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Emergency Contact Details</label><br />
-                <input className={`form-label-input ${emergencyContactErr? 'error-border' : ''}`} type="text" name="emergencyContact" onChange={handlePersonalData} value={emergencyContact} />
+                <input disabled = {disableFields} className={`form-label-input ${emergencyContactErr? 'error-border' : ''}`} type="text" name="emergencyContact" onChange={handlePersonalData} value={emergencyContact} />
               </Col>
               <Col>
                 <label className="form-label">Blood Group</label><br />
-                <input className="form-label-input" type="text" name="bloodGroup" onChange={handlePersonalData} value={bloodGroup} />
+                <input  disabled = {disableFields} className="form-label-input" type="text" name="bloodGroup" onChange={handlePersonalData} value={bloodGroup} />
               </Col>
              
               
@@ -480,20 +533,20 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
             <Row xs={1} md={2} lg={4}>
             <Col className="section-heading-col">
                 <label className="form-label"><span className="required">*</span>Official Date of Birth</label><br />
-                <input className="form-label-input" type="date" name="dobOfficial" onChange={handlePersonalData} value={dobOfficial} />
+                <input disabled = {disableFields} className="form-label-input" type="date" name="dobOfficial" onChange={handlePersonalData} value={dobOfficial} />
               </Col>
             
               <Col>
                 <label className="form-label"><span className="required">*</span>Original Date of Birth</label><br />
-                <input className="form-label-input" type="date" name="dobOriginal" onChange={handlePersonalData} value={dobOriginal} />
+                <input  disabled = {disableFields} className="form-label-input" type="date" name="dobOriginal" onChange={handlePersonalData} value={dobOriginal} />
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Father Name</label><br />
-                <input className={`form-label-input ${fatherNameErr? 'error-border' : ''}`} type="text" name="fatherName" onChange={handlePersonalData} value={fatherName} />
+                <input disabled = {disableFields} className={`form-label-input ${fatherNameErr? 'error-border' : ''}`} type="text" name="fatherName" onChange={handlePersonalData} value={fatherName} />
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Mother Name</label><br />
-                <input className={`form-label-input ${motherNameErr? 'error-border' : ''}`} type="text" name="motherName" onChange={handlePersonalData} value={motherName} />
+                <input  disabled = {disableFields} className={`form-label-input ${motherNameErr? 'error-border' : ''}`} type="text" name="motherName" onChange={handlePersonalData} value={motherName} />
               </Col>
               
               </Row>
@@ -503,7 +556,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
             <Row>
                <Col>
                 <label className="form-label">Marital Status</label> <br />
-                <select className="form-label-input" name = "maritalStatus" onChange={handlePersonalData} value={maritalStatus} >
+                <select disabled = {disableFields} className="form-label-input" name = "maritalStatus" onChange={handlePersonalData} value={maritalStatus} >
                   <option value = "">Select</option>
                   <option value = "single">Single</option>
                   <option value = "married">Married</option>
@@ -514,17 +567,17 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
               {maritalStatus === "married" ?(
               <Col>
                 <label className="form-label">Spouse Name</label><br />
-                <input className="form-label-input" type="text" name="spouseName" onChange={handlePersonalData} value={spouseName} />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="spouseName" onChange={handlePersonalData} value={spouseName} />
               </Col> ) : null}
               {maritalStatus === "married"?(
               <Col>
                 <label className="form-label">Spouse Aadhar Number</label><br />
-                <input className="form-label-input" type="text" name="spouseAadharNumber" onChange={handlePersonalData} value={spouseAadharNumber} />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="spouseAadharNumber" onChange={handlePersonalData} value={spouseAadharNumber} />
               </Col> ) : null}
               {maritalStatus === "married" ?(
               <Col>
                 <label className="form-label">Spouse Date of Birth</label><br />
-                <input className="form-label-input" type="text" name="dobSpouse" onChange={handlePersonalData} value={dobSpouse} />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="dobSpouse" onChange={handlePersonalData} value={dobSpouse} />
               </Col> ) : null}
               {/* {maritalStatus !== "single" && maritalStatus !== "" ?(
               <Col>
@@ -580,29 +633,29 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
             <Row>
               <Col>
                 <label className="form-label">Under Graduate Degree</label><br />
-                <input className="form-label-input" placeholder='e.g. Bachelor of Technology' type="text" name="employeeId" />
+                <input disabled = {disableFields} className="form-label-input" placeholder='e.g. Bachelor of Technology' type="text" name="employeeId" />
               </Col>
               <Col>
                 <label className="form-label">Field of Study</label><br />
-                <input className="form-label-input" placeholder='e.g. Computer Science' type="text" name="employeeId" />
+                <input disabled = {disableFields} className="form-label-input" placeholder='e.g. Computer Science' type="text" name="employeeId" />
               </Col>
               <Col>
                 <label className="form-label">College/University</label><br />
-                <input className="form-label-input" type="text" name="officialEmail" />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="officialEmail" />
               </Col>
             </Row>
             <Row>
               <Col>
                 <label className="form-label">Start Year</label> <br />
-                <input className="form-label-input" type="text" name="phone" />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="phone" />
               </Col>
               <Col>
                 <label className="form-label">End Year(Actual/Expected)</label><br />
-                <input className="form-label-input" type="text" name="alternativeContact" />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="alternativeContact" />
               </Col>
               <Col>
                 <label className="form-label">Grade/Percentage</label><br />
-                <input className="form-label-input" type="text" name="personalEmail" />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="personalEmail" />
               </Col>
             </Row>
             <div>
@@ -611,29 +664,29 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
             <Row>
               <Col>
                 <label className="form-label">Post Graduate Degree</label><br />
-                <input className="form-label-input" placeholder='e.g. M.Tech' type="text" name="permanentAddress" />
+                <input disabled = {disableFields} className="form-label-input" placeholder='e.g. M.Tech' type="text" name="permanentAddress" />
               </Col>
               <Col>
                 <label className="form-label">Field of Study</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="currentAddress" />
               </Col>
               <Col>
                 <label className="form-label">College/University</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="currentAddress" />
               </Col>
             </Row>
             <Row>
               <Col>
                 <label className="form-label">Start Year</label><br />
-                <input className="form-label-input" type="text" name="permanentAddress" />
+                <input  disabled = {disableFields} className="form-label-input" type="text" name="permanentAddress" />
               </Col>
               <Col>
                 <label className="form-label">End Year(Actual/Expected)</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="currentAddress" />
               </Col>
               <Col>
                 <label className="form-label">Grade/Percentage</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="currentAddress" />
               </Col>
             </Row>
             <div>
@@ -642,34 +695,34 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
             <Row>
               <Col>
                 <label className="form-label">PhD/Doctorate Degree</label><br />
-                <input className="form-label-input" type="text" name="permanentAddress" />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="permanentAddress" />
               </Col>
               <Col>
                 <label className="form-label">Field of Study</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="currentAddress" />
               </Col>
               <Col>
                 <label className="form-label">College/University</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="currentAddress" />
               </Col>
             </Row>
             <Row>
               <Col>
                 <label className="form-label">Start Year</label><br />
-                <input className="form-label-input" type="text" name="permanentAddress" />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="permanentAddress" />
               </Col>
               <Col>
                 <label className="form-label">End Year(Actual/Expected)</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
+                <input  disabled = {disableFields} className="form-label-input" type="text" name="currentAddress" />
               </Col>
               <Col>
                 <label className="form-label">Grade/Percentage</label><br />
-                <input className="form-label-input" type="text" name="currentAddress" />
+                <input  disabled = {disableFields} className="form-label-input" type="text" name="currentAddress" />
               </Col>
             </Row>
           </div>
           <div className="exp-confirmation">
-              <input type='checkbox' checked = {qualificationData.havePriorExp} onChange={handleCheckboxChange}/>
+              <input  disabled = {disableFields} className="form-label-input" type='checkbox' checked = {qualificationData.havePriorExp} onChange={handleCheckboxChange}/>
               <label className="form-label">Do you have prior work experience?</label>           
           </div>
           {qualificationData.havePriorExp ? 
@@ -714,29 +767,29 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
             <Row>
               <Col>
                 <label className="form-label"><span className="required">*</span>Account Number</label><br />
-                <input className={`form-label-input ${acNumberErr? 'error-border' : ''}`} type="text" name="acNumber" onChange={handleBankDetailsData} value = {acNumber} />
+                <input disabled = {disableFields} className={`form-label-input ${acNumberErr? 'error-border' : ''}`} type="text" name="acNumber" onChange={handleBankDetailsData} value = {acNumber} />
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>IFSC Code</label> <br />
-                <input className={`form-label-input ${ifscCodeErr? 'error-border' : ''}`}  type="text" name="ifscCode" onChange={handleBankDetailsData} value={ifscCode} />
+                <input disabled = {disableFields} className={`form-label-input ${ifscCodeErr? 'error-border' : ''}`}  type="text" name="ifscCode" onChange={handleBankDetailsData} value={ifscCode} />
               </Col>
               <Col>
                 <label className="form-label"><span className="required">*</span>Name as per A/C</label><br />
-                <input className={`form-label-input ${nameAsPerBankErr? 'error-border' : ''}`} type="text" name="nameAsPerBank" onChange={handleBankDetailsData}  value={nameAsPerBank}/>
+                <input disabled = {disableFields} className={`form-label-input ${nameAsPerBankErr? 'error-border' : ''}`} type="text" name="nameAsPerBank" onChange={handleBankDetailsData}  value={nameAsPerBank}/>
               </Col>
             </Row>
             <Row>
               <Col>
                 <label className="form-label"><span className="required">*</span>Branch</label> <br />
-                <input className={`form-label-input ${branchNameErr? 'error-border' : ''}`}    type="text" name="branchName" onChange={handleBankDetailsData} value={branchName} />
+                <input disabled = {disableFields} className={`form-label-input ${branchNameErr? 'error-border' : ''}`}    type="text" name="branchName" onChange={handleBankDetailsData} value={branchName} />
               </Col>
               <Col>
                 <label className="form-label">UAN</label> <br />
-                <input className="form-label-input" type="text" name="uan" onChange={handleBankDetailsData} value={uan} />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="uan" onChange={handleBankDetailsData} value={uan} />
               </Col>
               <Col>
                 <label className="form-label">PF</label> <br />
-                <input className="form-label-input" type="text" name="pfNumber" onChange={handleBankDetailsData} value={pfNumber} />
+                <input disabled = {disableFields} className="form-label-input" type="text" name="pfNumber" onChange={handleBankDetailsData} value={pfNumber} />
               </Col>
             </Row>
 
@@ -758,22 +811,6 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
         </div>
       </div>
       <div className="personal-details-body" style={{ backgroundImage: `url(${contentBg})` }}>
-        {/* <div className="left-section"> */}
-          {/* <h1 className="greeting">Hello SpaceMan !</h1> */}
-          {/* <div className="personal-details-sidebar">
-            <ul className="personal-details-menu">
-              {sections.map((section) => (
-                <li
-                  key={section}
-                  className={`personal-details-menu-item ${selectedMenu === section ? 'selected' : ''}`}
-                  onClick={() => setSelectedMenu(section)}
-                >
-                  {section}
-                </li>
-              ))}
-            </ul>
-          </div> */}
-        {/* </div> */}
         <div className="personal-details-content">
           <ProgressBar progress={progress} />
           <div className="form-card">
@@ -791,6 +828,13 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
           </div>
         </div>
       </div>
+      <AlertMessage
+        isSuccess={alertObj.isSuccess}
+        isWarning={alertObj.isWarning}
+        isFailure={alertObj.isFailure}
+        alertTitle={alertObj.title}
+        alertMsg={alertObj.message}
+      />
     </div>
   );
 };
