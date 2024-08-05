@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 import headerBg from '../images/default_header_banner.png';
