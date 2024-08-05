@@ -1,0 +1,23 @@
+/* footer.css */
+.footer {
+    background-color: #f8f9fa;
+    padding: 10px;
+    /* text-align: center; */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    border: 1px solid #e7e7e7;
+    /* background-color: #684DF4; */
+  }
+  
+  .footer p {
+    margin: 0;
+    /* font-size: 14px;
+    
+
+    /* color: #ffffff; */
+    font-size: 14px;
+    font-family: sans-serif;
+    color: #333;
+  }
+  

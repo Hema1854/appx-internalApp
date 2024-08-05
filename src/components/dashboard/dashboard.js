@@ -13,6 +13,7 @@ import gallerywhite from '../images/Gallery White.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { SubMenuInfoAction } from '../../Redux/Action/SubMenuInfoAction';
+import Footer from '../Footer/Footer';
 
 const Dashboard = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -38,6 +39,17 @@ const Dashboard = () => {
     navigate(`${path}`);
     dispatch(SubMenuInfoAction(subMenu));
   };
+
+
+  const handlePeronalInfoSubSection = () => {
+   setIsPersonalInfoOpen(true);
+   setSelectedMenu('');
+  }
+
+  const handleClosePersonalInfoSubSection = () => {
+    setIsPersonalInfoOpen((prev) => setIsPersonalInfoOpen(!prev) );
+  }
+   
 
   return (
     <div className="dashboard-container">
@@ -66,8 +78,7 @@ const Dashboard = () => {
                   className={`dashboard-left-menu-item ${selectedMenu === item.name ? 'selected' : ''} ${item.name === 'Personal Information' && isPersonalInfoOpen ? 'open' : ''}`}
                   onClick={() => {
                     if (item.name === 'Personal Information') {
-                      setIsPersonalInfoOpen(!isPersonalInfoOpen);
-                      setSelectedMenu('');
+                     handlePeronalInfoSubSection();
                     } else {
                       setSelectedMenu(item.name);
                       setIsPersonalInfoOpen(false);
@@ -88,26 +99,26 @@ const Dashboard = () => {
                     <img src={item.icon} alt={item.name} />
                     {!isSidebarCollapsed && <span>{item.name}</span>}
                     {item.name === 'Personal Information' && !isSidebarCollapsed && (
-                      <span className="submenu-arrow">
+                      <span className="submenu-arrow" onClick={handleClosePersonalInfoSubSection}>
                         {isPersonalInfoOpen ? <FaChevronUp /> : <FaChevronDown />}
                       </span>
                     )}
                   </NavLink>
                   {item.name === 'Personal Information' && isPersonalInfoOpen && (
-                     <ul className={`dashboard-left-submenu ${isSidebarCollapsed ? 'popup' : ''}`}>
-                     {item.subMenu.map((subItem, subIndex) => (
-                       <li key={subIndex} onClick={() => handleNavigation('personal-information', subItem)}>
-                         {subItem}
-                       </li>
-                     ))}
-                   </ul>
-                 )}
-               </li>
-             ))}
-           </ul>
-         </nav>
-       </div>
-     </div>
+                    <ul className={`dashboard-left-submenu ${isSidebarCollapsed ? 'popup' : ''}`}>
+                      {item.subMenu.map((subItem, subIndex) => (
+                        <li key={subIndex} onClick={() => handleNavigation('personal-information', subItem)}>
+                          {subItem}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </div>
 
       <div className="content-container">
         <Routes>
@@ -115,6 +126,7 @@ const Dashboard = () => {
           <Route path="home" element={<DefaultDashboard />} />
           <Route path="personal-information" element={<PersonalDetails />} />
         </Routes>
+        <Footer />
       </div>
     </div>
   );
