@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Routes, Route, Navigate, NavLink, useNavigate } from 'react-router-dom';
 import DefaultDashboard from '../default-dashoard/default-dashboard';
 import PersonalDetails from '../personal-details/personal-details';
+import EmployeeMedicalDeclaration from '../MedicalDeclaration/EmployeeMedicalDeclaration'; // Import the new component
 import './dashboard.css';
 import backwardWhite from '../images/Backward.png';
 import ExpandWhite from '../images/Expand White.png';
@@ -114,6 +115,7 @@ const Dashboard = () => {
           <Route path="/" element={<Navigate to="home" />} />
           <Route path="home" element={<DefaultDashboard />} />
           <Route path="personal-information" element={<PersonalDetails />} />
+          <Route path="medical-declaration" element={<EmployeeMedicalDeclaration />} /> {/* Add the route for the Medical Declaration */}
         </Routes>
       </div>
     </div>
