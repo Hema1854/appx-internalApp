@@ -161,7 +161,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
           }
           if(data.user_details.is_temporary == 0){
             console.log('11')
-            setDisableFields(true)
+            setDisableFields(false)
           }
           setEmployeeDetailsData(prevState => ({
             ...prevState,
@@ -349,6 +349,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
           "officialEmail": employeeDetailsData.officialEmail,
           "phone": employeeDetailsData.phoneNumber,
           "alternativeContact": employeeDetailsData.alternativeContact,
+          "designationAppx":employeeDetailsData.designation,
           "technologyHired": employeeDetailsData.techHiredFor,
           "joiningDate": employeeDetailsData.joiningDate,
           "personalEmail": employeeDetailsData.personalEmail,
@@ -359,15 +360,15 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
           "spouseName": personalData.spouseName,
           "spouseAadharNumber": personalData.spouseAadharNumber,
           "dobSpouse": personalData.dobSpouse,
-          "fatherName": personalData.fatherName,
-          "motherName": personalData.motherName,
+          "fathersName": personalData.fatherName,
+          "mothersName": personalData.motherName,
           "emergencyContact": personalData.emergencyContact,
           "bloodGroup": personalData.bloodGroup,
           "hobbies": personalData.hobbies,
           "others": personalData.others,
-          "acNumber": bankDetailsData.acNumber,
+          "accountNumber": bankDetailsData.acNumber,
           "ifscCode": bankDetailsData.ifscCode,
-          "nameAsPerBank": bankDetailsData.nameAsPerBank,
+          "accountHolderName": bankDetailsData.nameAsPerBank,
           "bankName": bankDetailsData.branchName,
           "bankUan": bankDetailsData.uan,
           "bankPf": bankDetailsData.pfNumber
@@ -387,7 +388,7 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
           "Success",
           'Data Submitted SuccessFully'
         );
-        setDisableFields(true)
+        setDisableFields(false)
       } else {
         console.log('Not getting data', data.message);
       }
