@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, NavLink, useNavigate } from 'react-router-dom'
 import DefaultDashboard from '../default-dashoard/default-dashboard';
 import PersonalDetails from '../personal-details/personal-details';
 import EmployeeMedicalDeclaration from '../MedicalDeclaration/EmployeeMedicalDeclaration'; // Import the new component
+import Loading from '../Loading/Loading'; // Import the loading component
 import './dashboard.css';
 import backwardWhite from '../images/Backward.png';
 import ExpandWhite from '../images/Expand White.png';
@@ -20,6 +21,7 @@ const Dashboard = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState('');
   const [isPersonalInfoOpen, setIsPersonalInfoOpen] = useState(false);
+  const [loading, setLoading] = useState(false); // State to manage loading screen
   const loginInfo = useSelector((state) => state.LoginInfoReducer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -37,23 +39,34 @@ const Dashboard = () => {
   ];
 
   const handleNavigation = (path, subMenu) => {
-    navigate(`${path}`);
-    dispatch(SubMenuInfoAction(subMenu));
+    const itemsWithLoading = ['Travel Declaration', 'Holidays 2024', 'Gallery'];
+
+    if (itemsWithLoading.includes(subMenu)) {
+      setLoading(true); // Show loading screen
+      setTimeout(() => {
+        navigate(`${path}`);
+        dispatch(SubMenuInfoAction(subMenu));
+        setLoading(false); // Hide loading screen after navigation
+      },500); // Simulate a delay for loading screen
+    } else {
+      navigate(`${path}`);
+      dispatch(SubMenuInfoAction(subMenu));
+    }
   };
 
+  const handlePersonalInfoSubSection = () => {
+    setIsPersonalInfoOpen(true);
+    setSelectedMenu('');
+  };
 
-  const handlePeronalInfoSubSection = () => {
-   setIsPersonalInfoOpen(true);
-   setSelectedMenu('');
-  }
-
-  const handleClosePersonalInfoSubSection = () => {
-    setIsPersonalInfoOpen((prev) => setIsPersonalInfoOpen(!prev) );
-  }
-   
+  const handleClosePersonalInfoSubSection = (e) => {
+    e.stopPropagation(); // Prevent event from bubbling up
+    setIsPersonalInfoOpen(prev => !prev); // Toggle open/close state
+  };
 
   return (
     <div className="dashboard-container">
+      {loading && <Loading />} {/* Display loading screen if loading is true */}
       <div className={`dashboard ${isSidebarCollapsed ? 'collapsed' : ''}`}>
         <div className="sidebar">
           <div className="d-flex" style={{ flexDirection: isSidebarCollapsed ? 'column' : 'row' }}>
@@ -79,10 +92,11 @@ const Dashboard = () => {
                   className={`dashboard-left-menu-item ${selectedMenu === item.name ? 'selected' : ''} ${item.name === 'Personal Information' && isPersonalInfoOpen ? 'open' : ''}`}
                   onClick={() => {
                     if (item.name === 'Personal Information') {
-                     handlePeronalInfoSubSection();
+                      handlePersonalInfoSubSection();
                     } else {
                       setSelectedMenu(item.name);
                       setIsPersonalInfoOpen(false);
+                      handleNavigation(item.name.toLowerCase().replace(' ', '-'), item.name); // Pass the menu item name as subMenu
                     }
                   }}
                   onMouseEnter={() => {
