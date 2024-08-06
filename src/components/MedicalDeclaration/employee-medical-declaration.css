@@ -89,7 +89,7 @@
     justify-content: flex-end;
     padding: 30px;
     box-sizing: border-box;
-    height: 100%;
+    height: 80%;
     width: 100%;
   }
   
@@ -134,27 +134,7 @@
   .form-label-input.error-border {
     border: 1px solid red;
   }
-  
-  .section-heading {
-    font-size: 20px;
-    text-align: center;
-    color: #5e13a0;
-    position: relative;
-    display: inline-block;
-    font-weight: bold;
-  }
-  
-  .section-heading::after {
-    content: '';
-    position: absolute;
-    text-align: center;
-    right: -11px;
-    bottom: -10px;
-    width: 115%;
-    height: 3px;
-    background-color: #ad57f8;
-  }
-  
+   
   .col {
     padding-left: 20px;
     padding-right: 20px;
@@ -167,66 +147,7 @@
     flex-direction: row;
 
   }
-  
- 
-  
-  .save-button {
-    font-size: 12px;
-    font-weight: 700;
-    padding: 5px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 26px;
-    width: 65px;
-    background-color: #b260ff;
-    border-radius: 4px;
-    margin-right: 10px;
-  }
-  
-  .save-button:hover {
-    background-color: #8d1ef6;
-  }
-  
-  .form-sub-heading {
-    font-size: 16px;
-    color: #5e13a0;
-    font-weight: 600;
-    margin-top: 20px;
-  }
-  
-  .personal-dtls-sub-heading {
-    justify-content: flex-start;
-    margin: 10px 0 0 10px;
-    font-size: 16px;
-    text-align: center;
-    color: #3f0872;
-    position: relative;
-    display: inline-block;
-    font-weight: 700;
-  }
-  
-  .personal-dtls-sub-heading::after {
-    content: '';
-    position: absolute;
-    text-align: center;
-    right: -11px;
-    bottom: -3px;
-    width: 110%;
-    height: 1.5px;
-    background-color: #ad57f8;
-  }
-  
-  .exp-confirmation {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
-  }
-  
+
   .required {
     color: red;
     font-size: 1.2em;
