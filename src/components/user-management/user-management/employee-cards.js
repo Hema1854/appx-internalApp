@@ -75,6 +75,7 @@ const EmployeeCard = ({ employee }) => {
   } catch (error) {
     // Fall back to the default image
     imagePath = prabhas;
+    
   }
 
   return (
