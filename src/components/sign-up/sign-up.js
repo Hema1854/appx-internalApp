@@ -155,7 +155,7 @@ function SignUpPage() {
         try {
             console.log('enterrrr');
             const formData = { fullName, email, password, confirmPassword };
-            const response = await fetch('https://4ljgkngzqa.execute-api.us-east-1.amazonaws.com/dev/signup', {
+            const response = await fetch('https://ek2mf3263f.execute-api.us-east-1.amazonaws.com/dev/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)

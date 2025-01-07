@@ -1,0 +1,117 @@
+/* Container for all employee cards */
+.employee-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    background-color: #f9f9f9; /* Light background for contrast */
+  }
+  
+  /* Main card container */
+  .main-card {
+    position: relative;
+    background: #fff; /* Card background */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    overflow: visible; /* Allow profile photo to be fully visible */
+    transition: transform 0.3s ease;
+    margin-top: 20px;
+  }
+  
+  /* Green shadow at the bottom */
+  .main-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(to top, #b260ff, transparent); /* Darker green shade */
+    z-index: 1;
+  }
+  
+  /* Hover effect */
+  .main-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Profile photo container */
+  .profile-photo {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+  }
+  
+  /* Profile image styling */
+  .profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  /* Inner card for details */
+  .inner-card {
+    background-color: #e2e8fa;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 50px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2; /* Ensure it stays above the gradient */
+  }
+  
+  /* Employee details */
+  h3 {
+    margin: 10px 0 5px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .employee-id {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .employee-detail {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  /* Joined date */
+  .joined-details {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  /* View details button */
+  .view-details-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #4caf50;
+    color: white;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .view-details-btn:hover {
+    background-color: #45a049;
+  }
+  

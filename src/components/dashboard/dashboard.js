@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { SubMenuInfoAction } from '../../Redux/Action/SubMenuInfoAction';
 import Footer from '../Footer/Footer';
+import EmployeeCards from '../user-management/user-management/employee-cards';
 
 const Dashboard = () => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -36,6 +37,7 @@ const Dashboard = () => {
     { name: 'Travel Declaration', icon: travdecwhite },
     { name: 'Holidays 2024', icon: calwhite },
     { name: 'Gallery', icon: gallerywhite },
+    { name: 'User Management', icon: personalinfowhite },
   ];
 
   const handleNavigation = (path, subMenu) => {
@@ -76,7 +78,7 @@ const Dashboard = () => {
 
             <div className="profile">
               <div className="profile-pic"></div>
-              <div className="profile-name">{loginInfo.userName.split(' ')[0]}</div>
+              {/* <div className="profile-name">{loginInfo.userName.split(' ')[0]}</div> */}
             </div>
 
             <button className="toggle-button" onClick={toggleSidebar}>
@@ -140,7 +142,8 @@ const Dashboard = () => {
           <Route path="/" element={<Navigate to="home" />} />
           <Route path="home" element={<DefaultDashboard />} />
           <Route path="personal-information" element={<PersonalDetails />} />
-          <Route path="medical-declaration" element={<EmployeeMedicalDeclaration />} /> {/* Add the route for the Medical Declaration */}
+          <Route path="medical-declaration" element={<EmployeeMedicalDeclaration />} />
+          <Route path="user-management" element={<EmployeeCards />} />
         </Routes>
         <Footer />
       </div>
