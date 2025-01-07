@@ -1,0 +1,181 @@
+.alm-alert-message-section {
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    z-index: 1056;
+    top: 0px;
+    border-top: 3px solid #f8af18;
+    display: flex;
+    justify-content: center;
+  }
+  .alm-alert-message {
+    width: 55%;
+    display: flex;
+    align-items: center;
+  }
+  .alm-alert-icon {
+    background-color: #f8af18;
+    padding: 6px 14px;
+    border-radius: 3px 0px 0px 3px;
+    height: 100%;
+    color: #fff;
+    font-size: 18px;
+  }
+
+  .alm-failure-icon {
+    background-color: rgb(230, 56, 56);
+    padding: 6px 14px;
+    border-radius: 3px 0px 0px 3px;
+    height: 100%;
+    color: #fff;
+  }
+
+  .alm-infomation-icon {
+    background-color: #3596FF;
+    padding: 6px 14px;
+    border-radius: 3px 0px 0px 3px;
+    height: 100%;
+    color: #fff;
+  }
+
+  .alm-alert-arrow {
+    width: 0;
+    height: 0;
+    z-index: 1;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    display: inline-block;
+    border-left: 8px solid #f8af18;
+  }
+  .alm-failure-arrow {
+    width: 0;
+    height: 0;
+    z-index: 1;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    display: inline-block;
+    border-left: 8px solid rgb(230, 56, 56);
+  }
+
+  .alm-information-arrow {
+    width: 0;
+    height: 0;
+    z-index: 1;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    display: inline-block;
+    border-left: 8px solid #3596FF;
+  }
+
+  .alm-alert-msg {
+    margin-left: -8px;
+    background-color: #ffffff;
+    border: 1px solid #f8af18;
+    padding-left: 17px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: #363843;
+    font-size: 13px;
+  }
+
+  .alm-failure-msg {
+    margin-left: -8px;
+    background-color: #ffffff;
+    border: 1px solid rgb(230, 56, 56);
+    padding-left: 17px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: #363843;
+    font-size: 13px;
+  }
+
+  .alm-information-msg {
+    margin-left: -8px;
+    background-color: #ffffff;
+    border: 1px solid #3596FF;
+    padding-left: 17px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: #363843;
+    font-size: 13px;
+  }
+  
+  .alm-success-message-section {
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    z-index: 1056;
+    top: 0px;
+    border-top: 3px solid #62c129;
+    display: flex;
+    justify-content: center;
+  }
+
+  .alm-failure-message-section {
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    z-index: 1056;
+    top: 0px;
+    border-top: 3px solid rgb(230, 56, 56);
+    display: flex;
+    justify-content: center;
+  }
+
+  .alm-information-message-section {
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    z-index: 1056;
+    top: 0px;
+    border-top: 3px solid #3596FF;
+    display: flex;
+    justify-content: center;
+  }
+
+  .alm-success-icon {
+    background-color: #62c129;
+    padding: 6px;
+    border-radius: 3px 0px 0px 3px;
+    height: 100%;
+  }
+  .alm-success-icon .modal-success-icon {
+    font-size: 25px !important;
+    color: #ffffff !important;
+  }
+  .alm-success-arrow {
+    width: 0;
+    height: 0;
+    z-index: 1;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    display: inline-block;
+    border-left: 8px solid #62c129;
+  }
+  .alm-success-msg {
+    margin-left: -8px;
+    background-color: #ffffff;
+    border: 1px solid #62c129;
+    padding-left: 17px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    color: #363843;
+    font-size: 13px;
+  }
+  .alm-warning {
+    margin-right: 5px;
+    font-weight: 600;
+  }
+  .alm-warning-msg {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }

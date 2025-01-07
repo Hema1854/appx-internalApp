@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './sign-up.css';
 import { useNavigate } from 'react-router-dom';
+import AlertPopup from '../AlertPopup/alert-popup';
 
 function SignUpPage() {
     const navigate = useNavigate();
@@ -9,6 +10,8 @@ function SignUpPage() {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    const [alertPopupStatus, changeAlertPopupStatus] = useState(false);
+    const [alertMessageObj, updateMessageObj] = useState({ icon: "", title: "", message: "", submitButtton: "", cancelButton: "", iconColor: "" });
     const [signUpData, setSignUpData] = useState({
         fullName: "",
         email: "",
@@ -19,6 +22,20 @@ function SignUpPage() {
     const navigateToSignInPage = () => {
         navigate('/signin');
     };
+
+    
+
+  const closeAlertPopup = () => {
+    updateMessageObj({ icon: "", title: "", message: "", submitButtton: "", cancelButton: "", iconColor: "" });
+    changeAlertPopupStatus(false);
+  };
+
+  const saveAlertPopupAction = () => {
+    if (alertMessageObj.action === "Ok") {
+      navigate('/signin');
+      closeAlertPopup();
+    }
+  };
 
     const handleSignUpFields = (e) => {
         const { name, value } = e.target;
@@ -77,6 +94,7 @@ function SignUpPage() {
     };
 
     const handleSignUp = async () => {
+        
         const { fullName, email, password, confirmPassword } = signUpData;
     
         // Perform validation checks
@@ -137,7 +155,7 @@ function SignUpPage() {
         try {
             console.log('enterrrr');
             const formData = { fullName, email, password, confirmPassword };
-            const response = await fetch('https://4voj6fn7d8.execute-api.us-east-1.amazonaws.com/dev/signup', {
+            const response = await fetch('https://4ljgkngzqa.execute-api.us-east-1.amazonaws.com/dev/signup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
@@ -145,7 +163,17 @@ function SignUpPage() {
     
             const data = await response.json();
             if (response.ok) {
-                navigate('/signin');
+                
+                updateMessageObj({
+                    icon: 'fa fa-info',
+                    title: 'Information',
+                    message: "Please click on the email sent to your registered email within 24 hours to complete the registration process.",
+                    submitButtton: "Ok",
+                    cancelButton: "Close",
+                    iconColor: "#f8af18",
+                    action: "Ok",
+                  });
+                  changeAlertPopupStatus(true);
             } else {
                 setError(data.message || 'Sign up failed');
             }
@@ -157,6 +185,8 @@ function SignUpPage() {
     
 
     return (
+        <>
+         <AlertPopup alertObj={alertMessageObj} openStatus={alertPopupStatus} saveAction={saveAlertPopupAction} buttonOrder={-1} cancelAction={closeAlertPopup} changeOpenStatus={closeAlertPopup} />
         <div className="signup-page-container">
             <div className="left-side-image-section">
                 <div className="text-container">
@@ -227,6 +257,7 @@ function SignUpPage() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 

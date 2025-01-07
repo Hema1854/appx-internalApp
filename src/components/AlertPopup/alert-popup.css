@@ -1,0 +1,55 @@
+.ap-alert-popup-modal {
+    max-width: 300px;
+    margin-top: 101px;
+}
+
+.ap-body {
+    text-align: center;
+}
+
+.ap-close-section {
+    display: flex;
+    font-size: 18px;
+    justify-content: flex-end;
+}
+
+.ap-alert-title {
+    margin-top: 7px;
+    font-size: 18px;
+    margin-bottom: 4px;
+    color: #333333;
+}
+
+.ap-alert-messg {
+    margin-bottom: 7px;
+    color: #444;
+}
+
+.ap-action-icon {
+    font-size: 45px;
+}
+
+.ap-cancel-button {
+    background-color: #f8f8f8 !important;
+    border: 1px solid #e2e2e2 !important;
+    color: #7e7e7e !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+    margin-right: 5px;
+}
+
+.ap-action-button {
+    background-color: #f8f8f8 !important;
+    border: 1px solid #e2e2e2 !important;
+    color: #7e7e7e !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+    margin-right: 5px;
+}
+
+.ap-submit-section {
+    display: flex;
+    justify-content: center;
+}

@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import './sign-in.css';
 import companyLogo from '../images/appx-logo.png';
 import { useNavigate } from 'react-router-dom';
+import { API_END_POINTS } from '../API-Constants';
+import { useDispatch } from 'react-redux';
+import { LoginInfoAction } from '../../Redux/Action/LoginInfoAction';
+
 
 function SignInPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const navigateToSignUpPage = () => {
         navigate('/signup');
@@ -21,7 +26,10 @@ function SignInPage() {
                 password: password
             };
 
-            const response = await fetch('https://4voj6fn7d8.execute-api.us-east-1.amazonaws.com/dev/login', {
+            
+            // const url = process.env.REACT_APP_URL + API_END_POINTS.login
+            const url = "https://4ljgkngzqa.execute-api.us-east-1.amazonaws.com/dev/login"
+            const response = await fetch (url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -32,9 +40,10 @@ function SignInPage() {
             const data = await response.json();
             if (response.ok) {
                 navigate('/dashboard');
-            } else {
+                dispatch(LoginInfoAction(data));
                 setError(data.message || 'Login failed');
             }
+        
         } catch (error) {
             console.error('Error during login:', error);
             setError('An error occurred during login');

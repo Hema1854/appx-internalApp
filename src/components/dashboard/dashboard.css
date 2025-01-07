@@ -9,17 +9,16 @@
   display:flex;
   flex-direction: column;
   align-items: center;
-  
- 
 }
-
 .sidebar {
-  width: 220px;
+  height: 100vh;
+  width: 250px;
   background-color: #b260ff;
-  padding: 0px 1px 0px 0px;
+  padding: 0px;
   color: white;
-  transition: width 0.3s;
   position: relative;
+  overflow-y: auto;
+  transition: width 0.3s;
 }
 
 .profile {
@@ -37,13 +36,17 @@
 }
 
 .profile-name {
-  margin-top: 0px;
-  font-size: 14px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: sans-serif;
 }
 
 .dashboard-left-menu {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .dashboard-left-menu-item {
@@ -52,10 +55,10 @@
   display: flex;
   align-items: center;
   transition: background-color 0.3s, color 0.3s;
+  position: relative;
 }
 
 .dashboard-left-menu-item img {
-
   margin-bottom: 3px;
   width: 24px;
   height: 24px;
@@ -82,10 +85,64 @@
 .dashboard-left-menu-item:hover img {
   filter: invert(30%) sepia(72%) saturate(4805%) hue-rotate(246deg) brightness(89%) contrast(95%);
 }
+
 .dashboard-left-menu-item.selected {
-  background-color: #3f0872 ;
+  background-color: #3f0872;
   color: #bb54e7 !important;
 }
+
+.dashboard-left-menu-item.open {
+  margin-bottom: 170px; /* Space below the expanded submenu */
+}
+
+.submenu-arrow {
+  margin-left: auto;
+  margin-right: 10px;
+  font-size: 16px;
+  display: inline-block; /* Ensure the arrow is inline with the text */
+}
+
+.dashboard-left-submenu {
+  list-style: none;
+  padding-left: 20px;
+  margin: 0;
+  display: none; /* Hide submenu by default */
+  position: absolute; /* Position it absolutely within the parent */
+ background-color: #f8f0ff;
+  width: 100%; /* Adjust width to fit your design */
+  top: 100%; /* Position below the menu item */
+  left: 0;
+  z-index: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: for a subtle shadow effect */
+}
+
+.dashboard-left-menu-item.open .dashboard-left-submenu {
+  display: block; /* Show submenu when parent is open */
+}
+
+.dashboard-left-submenu li {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #bb54e7;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dashboard-left-submenu li:hover {
+  background-color: #bb54e7;
+  color: #faf9fb !important;
+}
+
+.dashboard-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+.content-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .main-content {
   flex: 1;
   display: flex;
@@ -118,7 +175,6 @@
   background-color: rgba(23, 0, 44, 0.67);
   z-index: -1;
 }
-
 
 .carousel {
   width: 70%;
@@ -163,28 +219,14 @@
   cursor: pointer;
   display: flex;
   justify-content: flex-end;
-  width: 100%; 
+  width: 100%;
 }
-.toggle-button.collapsed {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  justify-content: flex-end;
-  width: 100%; 
-}
+
 .toggle-button img {
   width: 20px;
   height: 20px;
 }
-.collapsed.toggle-button{
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  justify-content: flex-end;
-  width: 100%; 
-}
+
 .collapsed .menu-item span {
   display: none;
 }
@@ -196,16 +238,13 @@
 
 .collapsed .profile-name {
   display: none;
-}
+} 
 
 .collapsed .menu-item img {
   width: 20px;
   height: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-} 
+}
+
 .welcome-text {
   color: #bc97df;
 }
@@ -220,6 +259,38 @@
   width: 100%;
   box-sizing: border-box;
 }
-.dashboard-left-menu-item.collapsed:hover{
-  background-color: #bb54e7;
+
+/* Styles when the sidebar is collapsed */
+.dashboard.collapsed .dashboard-left-menu-item.open .dashboard-left-submenu {
+  left: 100%; /* Adjust left position to show outside the collapsed sidebar */
+  top: 0; 
+  margin:0;/* Adjust top position if needed */
 }
+/* Ensure submenu fits within the viewport */
+.dashboard-left-submenu {
+  max-height: 400px; /* Adjust as needed */
+  overflow-y: auto; /* Allow scrolling if submenu is too tall */
+
+}
+
+
+
+
+
+/* /* Popup submenu when sidebar is collapsed / */
+.dashboard.collapsed .dashboard-left-menu-item.open .dashboard-left-submenu {
+display: block;
+position: fixed; 
+top: 100px; 
+left: 65px; 
+width:220px;
+height:200px;
+background-color: #f3f2f5; 
+z-index: 1000;
+box-shadow:#fbfbfc;
+}
+
+.dashboard.collapsed .dashboard-left-submenu {
+max-height: calc(100vh - 80px); 
+overflow-y: auto; 
+} 

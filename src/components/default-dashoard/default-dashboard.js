@@ -6,10 +6,13 @@ import headerBg from '../images/header_bg_image.jpg';
 import appxLogo from '../images/Logo AppX White.png';
 import logoutIcon from '../images/Logout White.png';
 import contentBg from '../images/content_bg_image.jpeg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 
 const DefaultDashboard = () => {
   const navigate = useNavigate();
+  const loginInfo = useSelector((state) => state.LoginInfoReducer);
   const logOutFromTheApplication = () => {
       navigate('/signin');
   }
@@ -26,7 +29,8 @@ const DefaultDashboard = () => {
           </div>
         </div>
         <div className="default-dashboard-content" style={{ backgroundImage: `url(${contentBg})` }}>
-          <h2>Hello SpaceMan!</h2>
+          <h2 className = "hello-text">Hello {loginInfo.userName} !
+          </h2>
           <Carousel className="carousel">
             <Carousel.Item>
               <img className="d-block w-100" src={headerBg} alt="First slide" />
