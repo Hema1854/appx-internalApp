@@ -13,6 +13,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import 'flag-icon-css/css/flag-icons.min.css';
 import AlertMessage from '../AlertMessage/alert-message';
+import { FaTrash } from 'react-icons/fa';
 
 const sections = ['Employee Details', 'Personal Details', 'Qualification', 'Bank Details'];
 
@@ -26,6 +27,7 @@ const PersonalDetails = () => {
   const [selectedMenu, setSelectedMenu] = useState(subMenuInfo.subMenu);
   const [progress, setProgress] = useState(0);
   const [personalInformation, setPersonalInformation] = useState([])
+  const [children, setChildren] = useState([]);
   const [disableFields, setDisableFields] = useState(false)
   const [employeeDetailsData, setEmployeeDetailsData] = useState({
     employeeId: "",
@@ -228,7 +230,6 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
     }));
   };
   
-
   const handleBankDetailsData = (e) => {
     const { name, value } = e.target;
     setbankDetailsData(prevState => ({
@@ -404,6 +405,27 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
     }));
   };
 
+   const handleAddChild = () => {
+    // Add a new child object with empty values (can modify later to collect child data)
+    const newChild = { childName: "", childAadharNumber: "", childAge: "" };
+    setChildren([...children, newChild]);
+  };
+
+  const handleChildChange = (index, e) => {
+    const { name, value } = e.target;
+    const updatedChildren = [...children];
+    updatedChildren[index][name] = value;
+    setChildren(updatedChildren);
+
+    // Console log the updated children details
+    console.log("Updated Children Details:", updatedChildren);
+  };
+  const handleDeleteChild = (index) => {
+    const updatedChildren = children.filter((_, i) => i !== index);
+    setChildren(updatedChildren); // Assuming `setChildren` is the state setter for `children`
+  };
+  
+
   const renderForm = () => {
     const { employeeId, employeeName, officialEmail,numberOfChildren, phoneNumber, alternativeContact, personalEmail, techHiredFor, joiningDate, designation } = employeeDetailsData
     const { panNumber, aadharNumber, dobOfficial,maritalStatus, dobOriginal, spouseName, spouseAadharNumber, dobSpouse, fatherName, motherName, emergencyContact, bloodGroup, hobbies, others } = personalData
@@ -505,124 +527,128 @@ const[BankDetailsErr,setbankDetailsDataErr]=useState({
           </div>
         );
         
-      case 'Personal Details':
-        return (
-          <div className="form-container">
-            <center>
-              <h1 className="section-heading">Personal Details</h1>
-            </center>
-            <Row xs={1} md={2} lg={4}>
-              <Col className="section-heading-col">
-                <label className="form-label"><span className="required">*</span>PAN Number</label><br />
-                <input disabled = {disableFields} className={`form-label-input ${panNumberErr ? 'error-border' : ''}`}type="text" name="panNumber" onChange={handlePersonalData} value={panNumber} />
-              </Col>
-              <Col className="section-heading-col">
-                <label className="form-label"><span className="required">*</span>Aadhar Number</label><br />
-                <input disabled = {disableFields} className={`form-label-input ${aadharNumberErr? 'error-border' : ''}`} type="text" name="aadharNumber" onChange={handlePersonalData} value={aadharNumber} />
-              </Col>
-              <Col>
-                <label className="form-label"><span className="required">*</span>Emergency Contact Details</label><br />
-                <input disabled = {disableFields} className={`form-label-input ${emergencyContactErr? 'error-border' : ''}`} type="text" name="emergencyContact" onChange={handlePersonalData} value={emergencyContact} />
-              </Col>
-              <Col>
-                <label className="form-label">Blood Group</label><br />
-                <input  disabled = {disableFields} className="form-label-input" type="text" name="bloodGroup" onChange={handlePersonalData} value={bloodGroup} />
-              </Col>
-             
-              
-            </Row>
-            <Row xs={1} md={2} lg={4}>
-            <Col className="section-heading-col">
-                <label className="form-label"><span className="required">*</span>Official Date of Birth</label><br />
-                <input disabled = {disableFields} className="form-label-input" type="date" name="dobOfficial" onChange={handlePersonalData} value={dobOfficial} />
-              </Col>
-            
-              <Col>
-                <label className="form-label"><span className="required">*</span>Original Date of Birth</label><br />
-                <input  disabled = {disableFields} className="form-label-input" type="date" name="dobOriginal" onChange={handlePersonalData} value={dobOriginal} />
-              </Col>
-              <Col>
-                <label className="form-label"><span className="required">*</span>Father Name</label><br />
-                <input disabled = {disableFields} className={`form-label-input ${fatherNameErr? 'error-border' : ''}`} type="text" name="fatherName" onChange={handlePersonalData} value={fatherName} />
-              </Col>
-              <Col>
-                <label className="form-label"><span className="required">*</span>Mother Name</label><br />
-                <input  disabled = {disableFields} className={`form-label-input ${motherNameErr? 'error-border' : ''}`} type="text" name="motherName" onChange={handlePersonalData} value={motherName} />
-              </Col>
-              
+        case 'Personal Details':
+          return (
+            <div className="form-container">
+              <center>
+                <h1 className="section-heading">Personal Details</h1>
+              </center>
+              <Row xs={1} md={2} lg={4}>
+                <Col className="section-heading-col">
+                  <label className="form-label">
+                    <span className="required">*</span>PAN Number
+                  </label><br />
+                  <input disabled={disableFields} className={`form-label-input ${panNumberErr ? 'error-border' : ''}`} type="text" name="panNumber" onChange={handlePersonalData} value={panNumber} />
+                </Col>
+                <Col className="section-heading-col">
+                  <label className="form-label">
+                    <span className="required">*</span>Aadhar Number
+                  </label><br />
+                  <input disabled={disableFields} className={`form-label-input ${aadharNumberErr ? 'error-border' : ''}`} type="text" name="aadharNumber" onChange={handlePersonalData} value={aadharNumber} />
+                </Col>
+                <Col className="section-heading-col">
+                  <label className="form-label">
+                    <span className="required">*</span>Emergency Contact Details
+                  </label><br />
+                  <input disabled={disableFields} className={`form-label-input ${emergencyContactErr ? 'error-border' : ''}`} type="text" name="emergencyContact" onChange={handlePersonalData} value={emergencyContact} />
+                </Col>
+                <Col className="section-heading-col">
+                  <label className="form-label">Blood Group</label><br />
+                  <input disabled={disableFields} className="form-label-input" type="text" name="bloodGroup" onChange={handlePersonalData} value={bloodGroup} />
+                </Col>
               </Row>
-            {/* <Row>
-            </Row> */}
-            
-            <Row>
-               <Col>
-                <label className="form-label">Marital Status</label> <br />
-                <select disabled = {disableFields} className="form-label-input" name = "maritalStatus" onChange={handlePersonalData} value={maritalStatus} >
-                  <option value = "">Select</option>
-                  <option value = "single">Single</option>
-                  <option value = "married">Married</option>
-                  <option value = "divorced">Divorced</option>
-                  <option value = "widowed">Widowed</option>
-                </select>
-              </Col>
-              {maritalStatus === "married" ?(
-              <Col>
-                <label className="form-label">Spouse Name</label><br />
-                <input disabled = {disableFields} className="form-label-input" type="text" name="spouseName" onChange={handlePersonalData} value={spouseName} />
-              </Col> ) : null}
-              {maritalStatus === "married"?(
-              <Col>
-                <label className="form-label">Spouse Aadhar Number</label><br />
-                <input disabled = {disableFields} className="form-label-input" type="text" name="spouseAadharNumber" onChange={handlePersonalData} value={spouseAadharNumber} />
-              </Col> ) : null}
-              {maritalStatus === "married" ?(
-              <Col>
-                <label className="form-label">Spouse Date of Birth</label><br />
-                <input disabled = {disableFields} className="form-label-input" type="text" name="dobSpouse" onChange={handlePersonalData} value={dobSpouse} />
-              </Col> ) : null}
-              {/* {maritalStatus !== "single" && maritalStatus !== "" ?(
-              <Col>
-                <label className="form-label">Number of Children</label><br />
-                <input className="form-label-input" type="text" name="numberOfChildren" onChange={handlePersonalData} value={numberOfChildren} />
-              </Col> ) : null } */}
+        
+              <Row xs={1} md={2} lg={4}>
+                <Col className="section-heading-col">
+                  <label className="form-label">
+                    <span className="required">*</span>Official Date of Birth
+                  </label><br />
+                  <input disabled={disableFields} className="form-label-input" type="date" name="dobOfficial" onChange={handlePersonalData} value={dobOfficial} />
+                </Col>
+                <Col className="section-heading-col">
+                  <label className="form-label">
+                    <span className="required">*</span>Original Date of Birth
+                  </label><br />
+                  <input disabled={disableFields} className="form-label-input" type="date" name="dobOriginal" onChange={handlePersonalData} value={dobOriginal} />
+                </Col>
+                <Col className="section-heading-col">
+                  <label className="form-label">
+                    <span className="required">*</span>Father Name
+                  </label><br />
+                  <input disabled={disableFields} className={`form-label-input ${fatherNameErr ? 'error-border' : ''}`} type="text" name="fatherName" onChange={handlePersonalData} value={fatherName} />
+                </Col>
+                <Col className="section-heading-col">
+                  <label className="form-label">
+                    <span className="required">*</span>Mother Name
+                  </label><br />
+                  <input disabled={disableFields} className={`form-label-input ${motherNameErr ? 'error-border' : ''}`} type="text" name="motherName" onChange={handlePersonalData} value={motherName} />
+                </Col>
+              </Row>
+        
+              <Row className="d-flex justify-content-between">
+  <Col md={3} className="section-heading-col">
+    <label className="form-label">Marital Status</label><br />
+    <select className="form-label-input" name="maritalStatus" onChange={handlePersonalData} value={maritalStatus}>
+      <option value="">Select</option>
+      <option value="single">Single</option>
+      <option value="married">Married</option>
+      <option value="divorced">Divorced</option>
+      <option value="widowed">Widowed</option>
+    </select>
+  </Col>
+
+  {maritalStatus === "married" && (
+    <>
+      <Col md={3} className="section-heading-col">
+        <label className="form-label">Spouse Name</label><br />
+        <input className="form-label-input" type="text" name="spouseName" onChange={handlePersonalData} value={spouseName} />
+      </Col>
+      <Col md={3} className="section-heading-col">
+        <label className="form-label">Spouse Aadhar Number</label><br />
+        <input className="form-label-input" type="text" name="spouseAadharNumber" onChange={handlePersonalData} value={spouseAadharNumber} />
+      </Col>
+      <Col md={3} className="section-heading-col">
+        <label className="form-label">Spouse Date of Birth</label><br />
+        <input className="form-label-input" type="text" name="dobSpouse" onChange={handlePersonalData} value={dobSpouse} />
+      </Col>
+
+      <Col md={3} className="d-flex justify-content-start align-items-center">
+        <button type="button" className="btn btn-primary btn-sm" onClick={handleAddChild}>
+          + Add Child
+        </button>
+      </Col>
+    </>
+  )}
+</Row>
 
 
-              
-
-            </Row>
-            {/* <Row>
-              <Col>
-                <label className="form-label">Child 1 Date of Birth</label><br />
-                <input className="form-label-input" type="text" name="dobChild1" />
-              </Col>
-              <Col>
-                <label className="form-label">Child 2 Name</label><br />
-                <input className="form-label-input" type="text" name="child2Name" />
-              </Col>
-              <Col>
-                <label className="form-label">Child 2 Date of Birth</label><br />
-                <input className="form-label-input" type="text" name="dobChild2" />
-              </Col>
-            </Row> */}
-            <Row>
-              
-              
-            </Row>
-            <Row>
-              
-              {/* <Col>
-                <label className="form-label">Hobbies</label><br />
-                <input className="form-label-input" type="text" name="hobbies" onChange={handlePersonalData} value={hobbies} />
-              </Col> */}
-              {/* <Col>
-                <label className="form-label">Others</label><br />
-                <input className="form-label-input" type="text" name="others" onChange={handlePersonalData} value={others} />
-              </Col> */}
-            </Row>
-
-
-          </div>
-        );
+              {children.map((child, index) => (
+                <Row key={index} className="d-flex align-items-center mb-3">
+                  <Col md={3} className="section-heading-col">
+                    <label className="form-label">{`Child ${index + 1} Name`}</label><br />
+                    <input className="form-label-input" type="text" name="childName" value={child.childName} onChange={(e) => handleChildChange(index, e)} />
+                  </Col>
+                  <Col md={3} className="section-heading-col">
+                    <label className="form-label">{`Child ${index + 1} Aadhar Number`}</label><br />
+                    <input className="form-label-input" type="text" name="childAadharNumber" value={child.childAadharNumber} onChange={(e) => handleChildChange(index, e)} />
+                  </Col>
+                  <Col md={3} className="section-heading-col">
+                    <label className="form-label">{`Child ${index + 1} Age`}</label><br />
+                    <input className="form-label-input" type="text" name="childAge" value={child.childAge} onChange={(e) => handleChildChange(index, e)} />
+                  </Col>
+                  <Col md={3} className="section-heading-col">
+                    <label className="form-label">{`Child ${index + 1} Date of Birth`}</label><br />
+                    <input className="form-label-input" type="text" name={`dobChild${index + 1}`} value={child.dobChild} onChange={(e) => handleChildChange(index, e)} />
+                  </Col>
+        
+                  <Col className="d-flex justify-content-end align-items-center">
+                    <FaTrash className="text-danger cursor-pointer" onClick={() => handleDeleteChild(index)} />
+                  </Col>
+                </Row>
+              ))}
+            </div>
+          );
+        
       case 'Qualification':
         return (
           <>
